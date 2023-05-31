@@ -1,6 +1,5 @@
 import { Footer } from '@/components/features/layout/Footer';
 import { Header } from '@/components/features/layout/Header';
-import { HeroSection } from '@/components/HeroSection';
 import ContentService from '@/utils/content-service';
 import { Asset } from 'contentful';
 import { GetStaticProps, NextPage } from 'next';
@@ -18,7 +17,6 @@ const Page: NextPage<PageProps> = ({ afbeeldingen }) => {
     <>
       <NextSeo title="Homepage" description="This is the homepage" />
       <Header textColor='white' fixed={false} />
-      <HeroSection images={afbeeldingen} />
       <Footer />
     </>
   );
