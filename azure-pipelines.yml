@@ -1,0 +1,77 @@
+# Node.js
+
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+  - 'master'
+  - 'develop'
+  - 'feature/*'
+  - 'release/*'
+
+name: $(Build.DefinitionName)-$(SourceBranchName)-$(Date:yyyyMMdd)$(Rev:.r)
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '16.x'
+    displayName: 'Install Node.js'
+
+  - task: YarnInstaller@3
+    inputs:
+      versionSpec: '1.x'
+
+  - task: DeleteFiles@1
+    displayName: 'Remove robots.txt in production'
+    condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
+    inputs:
+      Contents: 'public/robots.txt'
+
+  - task: Cache@2
+    inputs:
+      key: 'yarn | "$(Agent.OS)" | yarn.lock'
+      restoreKeys: |
+        yarn | "$(Agent.OS)"
+      path: $(YARN_CACHE_FOLDER)
+    displayName: Cache Yarn packages
+
+  - script: yarn install --frozen-lockfile
+    displayName: Install dependencies
+
+  - script: yarn build
+    displayName: Build application
+    env:
+      NODE_OPTIONS: --max_old_space_size=16384
+
+  - script: yarn install --production --ignore-scripts --prefer-offline
+    displayName: Prune dependencies
+
+  - task: CopyFiles@2
+    displayName: 'Copy files to $(Build.BinariesDirectory)'
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)'
+      Contents: |
+        **/*
+        !.git/**
+        !.vscode/**
+        !test/**
+      TargetFolder: '$(Build.BinariesDirectory)'
+
+  - task: ArchiveFiles@2
+    displayName: 'Package FunctionApp'
+    inputs:
+      rootFolderOrFile: '$(Build.BinariesDirectory)'
+      includeRootFolder: false
+      archiveFile: '$(Build.ArtifactStagingDirectory)/nextjs.zip'
+      replaceExistingArchive: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'

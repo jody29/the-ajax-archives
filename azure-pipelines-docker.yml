@@ -1,0 +1,50 @@
+trigger:
+  - 'master'
+  - 'develop'
+  - 'feature/*'
+  - 'release/*'
+
+name: $(Build.DefinitionName)-$(SourceBranchName)-$(Date:yyyyMMdd)$(Rev:.r)
+pool:
+  vmImage: 'ubuntu-latest'
+
+# Add / rename the variable groups you are going to use
+# How-to: https://docs.microsoft.com/en-us/azure/devops/pipelines/library/variable-groups?view=azure-devops&tabs=yaml
+# Default key that should exist: ENVIRONMENT_NAME
+variables:
+  - ${{ if or(eq(variables['Build.SourceBranchName'], 'main'), eq(variables['Build.SourceBranchName'], 'master')) }}:
+      - group: frontend-keys-prod
+  - ${{ if eq(variables['Build.SourceBranchName'], 'acceptance') }}:
+      - group: frontend-keys-acc
+  - ${{ if not(or(eq(variables['Build.SourceBranchName'], 'main'), eq(variables['Build.SourceBranchName'], 'master'), eq(variables['Build.SourceBranchName'], 'acceptance'))) }}:
+      - group: frontend-keys-test
+
+steps:
+  # Add all the required env keys here.
+  # This way Next can pick them up during build
+  - task: Bash@3
+    displayName: 'Write .env file'
+    inputs:
+      targetType: 'inline'
+      script: |
+        cat <<EOT > .env
+        ENVIRONMENT_NAME=$(ENVIRONMENT_NAME)
+        EOT
+
+  # Remove robots.txt on production to make sure we don't block access to crawlers.
+  - task: DeleteFiles@1
+    displayName: 'Remove robots.txt when its not test or acceptance'
+    condition: and(succeeded(), not(or(eq(variables['ENVIRONMENT'], 'test'), eq(variables['ENVIRONMENT'], 'acceptance'))))
+    inputs:
+      Contents: 'public/robots.txt'
+
+  - task: Docker@2
+    displayName: 'Build Docker image'
+    inputs:
+      containerRegistry: '$(CONTAINER_REGISTRY)'
+      repository: '$(REPOSITORY_NAME)'
+      command: 'buildAndPush'
+      Dockerfile: '**/Dockerfile'
+      tags: |
+        $(Build.BuildId)
+        latest
