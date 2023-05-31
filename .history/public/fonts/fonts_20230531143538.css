@@ -15,17 +15,3 @@
   font-weight: bold;
   font-display: fallback;
 }
-
-@font-face {
-  font-family: SuisseIntl;
-  src: url('/fonts/SuisseIntl-Regular.ttf');
-  font-weight: normal;
-  font-display: fallback;
-}
-
-@font-face {
-  font-family: SuisseIntl;
-  src: url('/fonts/SuisseIntl-Bold.ttf');
-  font-weight: bold;
-  font-display: fallback;
-}
