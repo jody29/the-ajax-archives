@@ -11,9 +11,13 @@ interface BaseLayoutProps {
 export function BaseLayout({ children }: BaseLayoutProps) {
   return (
     <Flex flexDirection="column" height="100vh">
+      <Header />
+
       <Box as="main" flex="1 0 auto" display="block">
         <Container>{children}</Container>
       </Box>
+
+      <Footer />
     </Flex>
   );
 }

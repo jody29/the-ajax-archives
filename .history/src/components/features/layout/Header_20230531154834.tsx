@@ -69,7 +69,7 @@ export const Header = ({ textColor, fixed }: HeaderProps) => {
         <Flex alignItems="center">
           <Navigation />
           <IconButton aria-label="search" ml="auto" variant="secondary">
-            <SearchIcon color={textColor} bg="transparant" />
+            <SearchIcon color={textColor} bg="transparent" />
           </IconButton>
         </Flex>
       </Container>

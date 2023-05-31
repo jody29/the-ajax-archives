@@ -6,8 +6,7 @@ import { link } from './link';
 export const button: ComponentStyleConfig = {
   baseStyle: {
     borderRadius: 'none',
-    fontWeight: 'normal',
-    fontFamily: 'body',
+    fontWeight: 'regular',
   },
   defaultProps: {
     variant: 'primary',
@@ -15,24 +14,14 @@ export const button: ComponentStyleConfig = {
   },
   variants: {
     primary: {
-      backgroundColor: 'red',
-      width: 'fit-content',
-      padding: '25px 20px',
-      fontSize: '1.4rem',
+      backgroundColor: 'primary',
       color: 'white',
       ...keyboardFocussed({
         boxShadow: 'outline',
       }),
     },
-    active: {
-      backgroundColor: '#a11717',
-      fontSize: '1.4rem',
-      width: 'fit-content',
-      padding: '25px 20px',
-      color: 'white',
-    },
     secondary: {
-      backgroundColor: 'transparent',
+      backgroundColor: 'secondary',
       color: 'white',
       ...keyboardFocussed({
         boxShadow: 'outline',
