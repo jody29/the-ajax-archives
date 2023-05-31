@@ -28,7 +28,6 @@
     "context": "dept-react-scripts context",
     "component": "dept-react-scripts component",
     "storybook": "start-storybook",
-    "generate-types": "contentful-typescript-codegen --output ./types/contentful.d.ts",
     "build-storybook": "build-storybook",
     "favicons": "node config/favicons",
     "svgr": "npx @svgr/cli@5 ./src/icons --template ./src/icons/svgrtemplate.js --ext tsx --out-dir ./src/icons/components --ref"
