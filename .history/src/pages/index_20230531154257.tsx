@@ -23,7 +23,9 @@ const Page: NextPage<PageProps> = ({ afbeeldingen }) => {
 export const getStaticProps: GetStaticProps = async ctx => {
   const homePage = await ContentService.instance.getEntriesByType<IHomePageFields>('homePage');
 
-  const homePageFields = homePage[0].fields
+  const homePageFields = homePage[0].fields as IHomePageFields
+
+  console.log(homePageFields.afbeeldingenHero)
 
   return {
     props: {
