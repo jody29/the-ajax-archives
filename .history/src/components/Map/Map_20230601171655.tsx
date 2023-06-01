@@ -49,6 +49,7 @@ export const MapContainer = (props: MapContainerProps) => {
   useEffect(() => {
     const filterMarkers = async () => {
       const filteredVerhalen = []
+      let newViewport
       for (const story of props.verhalen) {
         const response = await axios.get<GeocodingResponse>(
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${story.fields.locatie.lon},${story.fields.locatie.lat}.json?access_token=pk.eyJ1Ijoiam9keTU2OSIsImEiOiJja3g3amJ5MGowMW8wMm5zZTlwN3Fjb2t0In0.99DjUaNvteP2DPXThnnHXg`
@@ -57,8 +58,10 @@ export const MapContainer = (props: MapContainerProps) => {
 
         if (showInsideNetherlands && country === 'Netherlands') {
           filteredVerhalen.push(story)
+          setViewport(insideNetherlandsViewport)
         } else if (!showInsideNetherlands && country !== 'Netherlands') {
           filteredVerhalen.push(story)
+          setViewport(initialViewport)
         }
       }
       setFilteredVerhalen(filteredVerhalen)
@@ -90,8 +93,8 @@ export const MapContainer = (props: MapContainerProps) => {
     </ReactMapGL>
       
       <Flex justifyContent='center' gap={2} my={4}>
-        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight={showInsideNetherlands ? 'bold' : 'normal'} borderBottom={showInsideNetherlands ? '2px solid black' : '0'} pb={2} onClick={handleNetherlands}>Nederland</Button>
-        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight={showInsideNetherlands ? 'normal' : 'bold'} borderBottom={showInsideNetherlands ? '0' : '2px solid black'} pb={2} onClick={handleEurope}>Europa</Button>
+        <Button variant='secondary' color='black' fontSize='1.4rem' pb={2} onClick={handleNetherlands}>Nederland</Button>
+        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight='bold' borderBottom='2px solid black' pb={2} onClick={handleEurope}>Europa</Button>
       </Flex>
     </Box>
   );

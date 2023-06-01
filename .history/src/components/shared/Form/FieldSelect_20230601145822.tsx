@@ -120,8 +120,7 @@ function CustomSelect({
         <Box
           height="100%"
           width="100%"
-          display="flex"
-          alignItems='center'
+          display="block"
           p="6px 14px"
           as="button"
           type="button"
@@ -136,7 +135,7 @@ function CustomSelect({
           })}
         >
           {(selectedItem && selectedItem.label) || placeholder || '-'}
-          <Icon fontSize='1.4rem' ml={2} strokeWidth='1px'>
+          <Icon>
             <FaChevronDown />
           </Icon>
         </Box>

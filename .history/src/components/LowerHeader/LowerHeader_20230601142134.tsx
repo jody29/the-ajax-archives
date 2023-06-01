@@ -1,26 +1,10 @@
 import FilterIcon from '@/icons/components/Filter';
-import { Button, Flex, MenuItemOption, Select, Text } from '@chakra-ui/react';
+import { Button, Flex, Text } from '@chakra-ui/react';
 import Link from 'next/link';
-import { FieldSelect } from '../shared/Form';
 
 export interface LowerHeaderProps {
   isCollection?: boolean;
 }
-
-const options = [
-  {
-    value: '2022-2023',
-    label: '2022-2023'
-  },
-  {
-    value: '2021-2022',
-    label: '2021-2022'
-  },
-  {
-    value: '2020-2021',
-    label: '2020-2021'
-  }
-]
 
 export const LowerHeader = (props: LowerHeaderProps) => {
   return (
@@ -41,9 +25,8 @@ export const LowerHeader = (props: LowerHeaderProps) => {
           <Text ml={4}>Filter items</Text>
         </Button>
       ) : (
-        <Flex ml='auto' alignItems='center' gap={2}>
-          <Text fontSize='1.2rem' fontWeight='bold'>Seizoen:</Text>
-          <FieldSelect name='season' options={options} placeholder='2022-2023' />
+        <Flex ml='auto'>
+          <Text fontSize='1.2rem'>Seizoen:</Text>
         </Flex>
       )}
     </Flex>

@@ -1,4 +1,4 @@
-import { Box, BoxProps, Icon } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { useSelect } from 'downshift';
 import { forwardRef, InputHTMLAttributes, useState } from 'react';
@@ -7,7 +7,6 @@ import { HiSelector } from 'react-icons/hi';
 import { Label } from '@/components/shared/Label/Label';
 
 import { InputWrapper } from './FieldInput';
-import { FaChevronDown } from 'react-icons/fa';
 
 type Value = string | number;
 
@@ -120,8 +119,7 @@ function CustomSelect({
         <Box
           height="100%"
           width="100%"
-          display="flex"
-          alignItems='center'
+          display="block"
           p="6px 14px"
           as="button"
           type="button"
@@ -136,9 +134,7 @@ function CustomSelect({
           })}
         >
           {(selectedItem && selectedItem.label) || placeholder || '-'}
-          <Icon fontSize='1.4rem' ml={2} strokeWidth='1px'>
-            <FaChevronDown />
-          </Icon>
+          
         </Box>
       </InputWrapper>
       <List

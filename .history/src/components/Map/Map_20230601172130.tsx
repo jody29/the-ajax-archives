@@ -90,8 +90,8 @@ export const MapContainer = (props: MapContainerProps) => {
     </ReactMapGL>
       
       <Flex justifyContent='center' gap={2} my={4}>
-        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight={showInsideNetherlands ? 'bold' : 'normal'} borderBottom={showInsideNetherlands ? '2px solid black' : '0'} pb={2} onClick={handleNetherlands}>Nederland</Button>
-        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight={showInsideNetherlands ? 'normal' : 'bold'} borderBottom={showInsideNetherlands ? '0' : '2px solid black'} pb={2} onClick={handleEurope}>Europa</Button>
+        <Button variant='secondary' color='black' fontSize='1.4rem' pb={2} onClick={handleNetherlands}>Nederland</Button>
+        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight={'bold'} borderBottom='2px solid black' pb={2} onClick={handleEurope}>Europa</Button>
       </Flex>
     </Box>
   );

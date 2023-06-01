@@ -10,15 +10,15 @@ export interface LowerHeaderProps {
 const options = [
   {
     value: '2022-2023',
-    label: '2022-2023'
+    label: '22-23'
   },
   {
     value: '2021-2022',
-    label: '2021-2022'
+    label: '21-22'
   },
   {
     value: '2020-2021',
-    label: '2020-2021'
+    label: '20-21'
   }
 ]
 
@@ -43,7 +43,7 @@ export const LowerHeader = (props: LowerHeaderProps) => {
       ) : (
         <Flex ml='auto' alignItems='center' gap={2}>
           <Text fontSize='1.2rem' fontWeight='bold'>Seizoen:</Text>
-          <FieldSelect name='season' options={options} placeholder='2022-2023' />
+          <FieldSelect name='season' options={options} />
         </Flex>
       )}
     </Flex>

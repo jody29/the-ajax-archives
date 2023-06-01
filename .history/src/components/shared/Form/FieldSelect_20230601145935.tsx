@@ -136,7 +136,7 @@ function CustomSelect({
           })}
         >
           {(selectedItem && selectedItem.label) || placeholder || '-'}
-          <Icon fontSize='1.4rem' ml={2} strokeWidth='1px'>
+          <Icon fontSize='1.4rem' ml={2}>
             <FaChevronDown />
           </Icon>
         </Box>

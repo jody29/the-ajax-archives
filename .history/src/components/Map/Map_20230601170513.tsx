@@ -28,7 +28,6 @@ export const MapContainer = (props: MapContainerProps) => {
     longitude: 5.2913,
     zoom: 8,
   };
-
   const [viewport, setViewport] = useState(initialViewport)
  
   useEffect(() => {
@@ -37,6 +36,14 @@ export const MapContainer = (props: MapContainerProps) => {
 
   const [showInsideNetherlands, setShowInsideNetherlands] = useState(false)
   const [filteredVerhalen, setFilteredVerhalen] = useState<IStories[]>([])
+
+  const handleMapInteraction = (newViewport: any) => {
+    if (showInsideNetherlands) {
+      setViewport({ ...insideNetherlandsViewport, ...newViewport })
+    } else {
+      setViewport({ ...initialViewport, ...newViewport })
+    }
+  }
 
   const handleNetherlands = () => {
     setShowInsideNetherlands(true)
@@ -63,11 +70,13 @@ export const MapContainer = (props: MapContainerProps) => {
       }
       setFilteredVerhalen(filteredVerhalen)
     };
+
+    console.log(filteredVerhalen)
     
     if (isClient) {
       filterMarkers()
     }
-  }, [isClient ,showInsideNetherlands])
+  }, [showInsideNetherlands])
 
   if (!isClient) {
     return null
@@ -75,23 +84,38 @@ export const MapContainer = (props: MapContainerProps) => {
 
   return (
     <Box w='100%' overflow='hidden'>
+      {showInsideNetherlands ? (
+        <ReactMapGL
+        initialViewState={insideNetherlandsViewport}
+        dragPan={true}
+        style={{width: '100%', height: '600px', border: '1px solid black'}}
+        mapStyle="mapbox://styles/mapbox/light-v11"
+        mapboxAccessToken='pk.eyJ1Ijoiam9keTU2OSIsImEiOiJja3g3amJ5MGowMW8wMm5zZTlwN3Fjb2t0In0.99DjUaNvteP2DPXThnnHXg' >
+          {props.verhalen.map(story => (
+            <Marker key={story.sys.id} latitude={story.fields.locatie.lat} longitude={story.fields.locatie.lon} >
+              <ImageMarker link={story.sys.id} clubs={['schalke 04']} plaatsnaam={story.fields.plaatsnaam} image={story.fields.thumbnail} />
+            </Marker>
+          ))}
+        </ReactMapGL>
+      ) : ( 
+        <ReactMapGL
+        initialViewState={initialViewport}
+        dragPan={true}
+        style={{width: '100%', height: '600px', border: '1px solid black'}}
+        mapStyle="mapbox://styles/mapbox/light-v11"
+        mapboxAccessToken='pk.eyJ1Ijoiam9keTU2OSIsImEiOiJja3g3amJ5MGowMW8wMm5zZTlwN3Fjb2t0In0.99DjUaNvteP2DPXThnnHXg' >
+          {props.verhalen.map(story => (
+            <Marker key={story.sys.id} latitude={story.fields.locatie.lat} longitude={story.fields.locatie.lon} >
+              <ImageMarker link={story.sys.id} clubs={['schalke 04']} plaatsnaam={story.fields.plaatsnaam} image={story.fields.thumbnail} />
+            </Marker>
+          ))}
+        </ReactMapGL> 
+      )}
       
-    <ReactMapGL
-    initialViewState={viewport}
-    dragPan={true}
-    style={{width: '100%', height: '600px', border: '1px solid black'}}
-    mapStyle="mapbox://styles/mapbox/light-v11"
-    mapboxAccessToken='pk.eyJ1Ijoiam9keTU2OSIsImEiOiJja3g3amJ5MGowMW8wMm5zZTlwN3Fjb2t0In0.99DjUaNvteP2DPXThnnHXg' >
-      {filteredVerhalen.map(story => (
-        <Marker key={story.sys.id} latitude={story.fields.locatie.lat} longitude={story.fields.locatie.lon} >
-          <ImageMarker link={story.sys.id} clubs={['schalke 04']} plaatsnaam={story.fields.plaatsnaam} image={story.fields.thumbnail} />
-        </Marker>
-      ))}
-    </ReactMapGL>
       
       <Flex justifyContent='center' gap={2} my={4}>
-        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight={showInsideNetherlands ? 'bold' : 'normal'} borderBottom={showInsideNetherlands ? '2px solid black' : '0'} pb={2} onClick={handleNetherlands}>Nederland</Button>
-        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight={showInsideNetherlands ? 'normal' : 'bold'} borderBottom={showInsideNetherlands ? '0' : '2px solid black'} pb={2} onClick={handleEurope}>Europa</Button>
+        <Button variant='secondary' color='black' fontSize='1.4rem' pb={2} onClick={handleNetherlands}>Nederland</Button>
+        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight='bold' borderBottom='2px solid black' pb={2} onClick={handleEurope}>Europa</Button>
       </Flex>
     </Box>
   );

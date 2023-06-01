@@ -1,4 +1,4 @@
-import { Box, BoxProps, Icon } from '@chakra-ui/react';
+import { Box, BoxProps } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import { useSelect } from 'downshift';
 import { forwardRef, InputHTMLAttributes, useState } from 'react';
@@ -7,7 +7,6 @@ import { HiSelector } from 'react-icons/hi';
 import { Label } from '@/components/shared/Label/Label';
 
 import { InputWrapper } from './FieldInput';
-import { FaChevronDown } from 'react-icons/fa';
 
 type Value = string | number;
 
@@ -120,8 +119,7 @@ function CustomSelect({
         <Box
           height="100%"
           width="100%"
-          display="flex"
-          alignItems='center'
+          display="block"
           p="6px 14px"
           as="button"
           type="button"
@@ -135,10 +133,6 @@ function CustomSelect({
             onBlur,
           })}
         >
-          {(selectedItem && selectedItem.label) || placeholder || '-'}
-          <Icon fontSize='1.4rem' ml={2} strokeWidth='1px'>
-            <FaChevronDown />
-          </Icon>
         </Box>
       </InputWrapper>
       <List
@@ -152,10 +146,10 @@ function CustomSelect({
       >
         {items.map((item, index) => (
           <ListItem
-            color={highlightedIndex === index ? 'white' : 'black'}
+            color="black"
             as="li"
             cursor="pointer"
-            bg={highlightedIndex === index ? 'rgba(226, 59, 59, 1)' : null}
+            bg={highlightedIndex === index ? 'rgba(0, 0, 0, 0.04)' : null}
             p="12px 14px"
             key={`${item}${index}`}
             {...getItemProps({ item, index })}

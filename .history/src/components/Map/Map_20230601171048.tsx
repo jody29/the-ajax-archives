@@ -28,8 +28,6 @@ export const MapContainer = (props: MapContainerProps) => {
     longitude: 5.2913,
     zoom: 8,
   };
-
-  const [viewport, setViewport] = useState(initialViewport)
  
   useEffect(() => {
     setIsClient(true)
@@ -67,7 +65,7 @@ export const MapContainer = (props: MapContainerProps) => {
     if (isClient) {
       filterMarkers()
     }
-  }, [isClient ,showInsideNetherlands])
+  }, [showInsideNetherlands])
 
   if (!isClient) {
     return null
@@ -77,7 +75,7 @@ export const MapContainer = (props: MapContainerProps) => {
     <Box w='100%' overflow='hidden'>
       
     <ReactMapGL
-    initialViewState={viewport}
+    initialViewState={showInsideNetherlands ? insideNetherlandsViewport : initialViewport}
     dragPan={true}
     style={{width: '100%', height: '600px', border: '1px solid black'}}
     mapStyle="mapbox://styles/mapbox/light-v11"
@@ -90,8 +88,8 @@ export const MapContainer = (props: MapContainerProps) => {
     </ReactMapGL>
       
       <Flex justifyContent='center' gap={2} my={4}>
-        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight={showInsideNetherlands ? 'bold' : 'normal'} borderBottom={showInsideNetherlands ? '2px solid black' : '0'} pb={2} onClick={handleNetherlands}>Nederland</Button>
-        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight={showInsideNetherlands ? 'normal' : 'bold'} borderBottom={showInsideNetherlands ? '0' : '2px solid black'} pb={2} onClick={handleEurope}>Europa</Button>
+        <Button variant='secondary' color='black' fontSize='1.4rem' pb={2} onClick={handleNetherlands}>Nederland</Button>
+        <Button variant='secondary' color='black' fontSize='1.4rem' fontWeight='bold' borderBottom='2px solid black' pb={2} onClick={handleEurope}>Europa</Button>
       </Flex>
     </Box>
   );
