@@ -34,7 +34,7 @@ export const MapContainer = (props: MapContainerProps) => {
       initialViewState={{
         latitude: 50.25483,
         longitude: 6.300000,
-        zoom: 3.5
+        zoom: 3.3
       }}
       style={{width: '100%', height: '600px'}}
       mapStyle="mapbox://styles/mapbox/light-v11"

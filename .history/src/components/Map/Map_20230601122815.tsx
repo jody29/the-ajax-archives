@@ -12,6 +12,7 @@ export interface MapContainerProps {
 
 export const MapContainer = (props: MapContainerProps) => {
   const [isClient, setIsClient] = useState(false)
+  const [isHovered, setHovered] = useState(false)
   const [viewport, setViewport] = useState({
     latitude: 50.25483,
     longitude: 6.300000,
@@ -19,6 +20,14 @@ export const MapContainer = (props: MapContainerProps) => {
     height: '100vh',
     zoom: 4,
   })
+
+  const handleMouseEnter = () => {
+    setHovered(true)
+  }
+
+  const handleMouseLeave = () => {
+    setHovered(false)
+  }
  
   useEffect(() => {
     setIsClient(true)
@@ -29,14 +38,16 @@ export const MapContainer = (props: MapContainerProps) => {
   }
 
   return (
-    <Box w='100%' overflow='hidden' boxShadow='0 0 0 1px black'>
+    <Box h='600px' w='100%' overflow='hidden' boxShadow='0 0 0 1px black'>
       <ReactMapGl
       initialViewState={{
         latitude: 50.25483,
         longitude: 6.300000,
-        zoom: 3.5
+        zoom: 3.3
       }}
-      style={{width: '100%', height: '600px'}}
+      scrollZoom={true}
+      interactive={true}
+      style={{width: '100%', height: '100%'}}
       mapStyle="mapbox://styles/mapbox/light-v11"
       mapboxAccessToken='pk.eyJ1Ijoiam9keTU2OSIsImEiOiJja3g3amJ5MGowMW8wMm5zZTlwN3Fjb2t0In0.99DjUaNvteP2DPXThnnHXg' >
         {props.verhalen.map(story => (
