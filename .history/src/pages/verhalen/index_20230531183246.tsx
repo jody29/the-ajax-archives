@@ -1,35 +1,31 @@
 import { Header } from '@/components/features/layout/Header';
 import { LowerHeader } from '@/components/LowerHeader';
-import { MapContainer } from '@/components/Map';
 import ContentService from '@/utils/content-service';
 import { GetStaticProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { IStories } from 'types/contentful';
+import { IStoriesFields } from 'types/contentful';
+import dynamic from 'next/dynamic';
 
-interface PageProps {
-  stories: IStories[];
-}
+interface PageProps {}
 
 const Page: NextPage<PageProps> = props => {
-  
+  const MapContainer = dynamic(() => import('../../components/Map'), { ssr: false })
 
   return (
     <>
       <NextSeo title="Page title" description="Page description" />
       <Header textColor="black" fixed={false} />
       <LowerHeader />
-      <MapContainer verhalen={props.stories} />
+      <MapContainer />
     </>
   );
 };
 
 export const getStaticProps: GetStaticProps = async context => {
-  const verhalen = await ContentService.instance.getEntriesByType<IStories>('stories');
+  const verhalen = await ContentService.instance.getEntriesByType<IStoriesFields>('stories');
 
   return {
-    props: {
-      stories: verhalen
-    },
+    props: {},
     revalidate: 60,
   };
 };

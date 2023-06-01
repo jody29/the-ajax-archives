@@ -1,5 +1,4 @@
 import '@public/fonts/fonts.css';
-import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { ChakraProvider } from '@chakra-ui/react';
 import { DefaultSeo } from 'next-seo';

@@ -7,7 +7,7 @@ import { NextSeo } from 'next-seo';
 import { IStories } from 'types/contentful';
 
 interface PageProps {
-  stories: IStories[];
+  stories: IStories;
 }
 
 const Page: NextPage<PageProps> = props => {
