@@ -3,9 +3,10 @@ import { BackButton } from '@/components/BackButton';
 import { Footer } from '@/components/features/layout/Footer';
 import { Header } from '@/components/features/layout/Header';
 import { Image } from '@/components/shared/Image';
+import { Modal } from '@/components/shared/Modal';
 import { Check } from '@/icons/components';
 import ContentService from '@/utils/content-service';
-import { Box, Button, Flex, Heading, Icon, Modal, ModalContent, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Icon, Text, useDisclosure } from '@chakra-ui/react';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
@@ -62,8 +63,7 @@ const Page: NextPage<PageProps> = props => {
           h={550}
           w='50%'
           objectFit='cover'
-          onClick={modalDisclosure.onOpen}
-          cursor='zoom-in' />
+          onClick={modalDisclosure.onOpen} />
         <Flex flexDir='column' w='50%'>
           <Heading color='red' mb={2}>{props.collectorsItem.fields.naamItem}</Heading>
           <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{props.collectorsItem.fields.beschrijving}</span>
@@ -97,11 +97,8 @@ const Page: NextPage<PageProps> = props => {
           </Box>
         </Flex>
       </Flex>
-      <Modal {...modalDisclosure} size='4xl'>
-        <ModalOverlay />
-        <ModalContent>
-          <Image src={props.collectorsItem.fields.afbeelding.fields.file.url} alt={props.collectorsItem.fields.afbeelding.fields.title} />
-        </ModalContent>
+      <Modal {...modalDisclosure} size='3xl'>
+        <Image src={props.collectorsItem.fields.afbeelding.fields.file.url} alt={props.collectorsItem.fields.afbeelding.fields.title} w='full' />
       </Modal>
       <Box mb={24}>
         <Heading fontSize='1.5rem'>Vergelijkbare items</Heading>

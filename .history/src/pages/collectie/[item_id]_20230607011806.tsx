@@ -63,7 +63,7 @@ const Page: NextPage<PageProps> = props => {
           w='50%'
           objectFit='cover'
           onClick={modalDisclosure.onOpen}
-          cursor='zoom-in' />
+          cursor='pointer'/>
         <Flex flexDir='column' w='50%'>
           <Heading color='red' mb={2}>{props.collectorsItem.fields.naamItem}</Heading>
           <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{props.collectorsItem.fields.beschrijving}</span>
@@ -97,7 +97,7 @@ const Page: NextPage<PageProps> = props => {
           </Box>
         </Flex>
       </Flex>
-      <Modal {...modalDisclosure} size='4xl'>
+      <Modal {...modalDisclosure}>
         <ModalOverlay />
         <ModalContent>
           <Image src={props.collectorsItem.fields.afbeelding.fields.file.url} alt={props.collectorsItem.fields.afbeelding.fields.title} />

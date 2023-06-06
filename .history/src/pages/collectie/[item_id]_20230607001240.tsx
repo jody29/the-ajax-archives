@@ -3,14 +3,13 @@ import { BackButton } from '@/components/BackButton';
 import { Footer } from '@/components/features/layout/Footer';
 import { Header } from '@/components/features/layout/Header';
 import { Image } from '@/components/shared/Image';
-import { Check } from '@/icons/components';
 import ContentService from '@/utils/content-service';
-import { Box, Button, Flex, Heading, Icon, Modal, ModalContent, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ITicketAjaxAcMilan1995 } from 'types/contentful';
 
 interface PageProps {
@@ -18,36 +17,28 @@ interface PageProps {
 }
 
 const Page: NextPage<PageProps> = props => {
-  const [copied, setCopied] = useState(false)
 
   const router = useRouter();
-  const link = `localhost:3000${router.asPath}`
+  console.log(`https://www.theajaxarchives.nl${router.asPath}`)
 
   const shareItems = [
     {
-      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`,
+      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('')}`,
       src: 'facebook.png'
     },
     {
-      url: `https://www.instagram.com/share?url=${encodeURIComponent(link)}&caption=${encodeURIComponent('Bekijk dit toffe item op The Ajax Archives!')}`,
+      url: `https://www.instagram.com/share?url=${encodeURIComponent('')}&caption=${encodeURIComponent('Bekijk dit toffe item op The Ajax Archives!')}`,
       src: 'instagram.png'
     },
     {
-      url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(link)}&text=${encodeURIComponent('Bekijk dit toffe item op The Ajax Archives!')}`,
+      url: `https://twitter.com/intent/tweet?url=${encodeURIComponent('')}&text=${encodeURIComponent('Bekijk dit toffe item op The Ajax Archives!')}`,
       src: 'twitter.png'
+    },
+    {
+      url: '',
+      src: 'copy.png'
     }
   ]
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(link).then(() => {
-      setCopied(true)
-      setTimeout(() => {
-        setCopied(false)
-      }, 2000)
-    })
-  }
-
-  const modalDisclosure = useDisclosure()
 
   return (
     <>
@@ -61,9 +52,7 @@ const Page: NextPage<PageProps> = props => {
           lazyload={true}
           h={550}
           w='50%'
-          objectFit='cover'
-          onClick={modalDisclosure.onOpen}
-          cursor='zoom-in' />
+          objectFit='cover' />
         <Flex flexDir='column' w='50%'>
           <Heading color='red' mb={2}>{props.collectorsItem.fields.naamItem}</Heading>
           <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{props.collectorsItem.fields.beschrijving}</span>
@@ -81,31 +70,10 @@ const Page: NextPage<PageProps> = props => {
                   </Box>
                 </Link>
               ))}
-              <Button variant='secondary' p={0} onClick={copyToClipboard}>
-                <Image src='/Images/share/copy.png' alt='share button for copy to clipboard' />
-              </Button>
-              {copied && (
-                <Flex position='fixed' gap={2} alignItems='center' p={4} color='black' borderRadius='10px' bottom={10} left='50%' bg='#d9d9d9' transform='translateX(-50%)'>
-                  <Text>Gekopieërd naar klembord!</Text>
-                  <Icon fontSize='1.5rem' borderRadius='full'>
-                    <Check />
-                  </Icon>
-                </Flex>
-              )}
-              
             </Flex>
           </Box>
         </Flex>
       </Flex>
-      <Modal {...modalDisclosure} size='4xl'>
-        <ModalOverlay />
-        <ModalContent>
-          <Image src={props.collectorsItem.fields.afbeelding.fields.file.url} alt={props.collectorsItem.fields.afbeelding.fields.title} />
-        </ModalContent>
-      </Modal>
-      <Box mb={24}>
-        <Heading fontSize='1.5rem'>Vergelijkbare items</Heading>
-      </Box>
       <Footer />
     </>
   );
@@ -122,7 +90,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   return {
     props: {
       collectorsItem: selectedItem,
-    },
+    }, // will be passed to the page component as props
   };
 };
 

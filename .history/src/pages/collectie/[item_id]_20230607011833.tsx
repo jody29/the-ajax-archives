@@ -97,7 +97,7 @@ const Page: NextPage<PageProps> = props => {
           </Box>
         </Flex>
       </Flex>
-      <Modal {...modalDisclosure} size='4xl'>
+      <Modal {...modalDisclosure}>
         <ModalOverlay />
         <ModalContent>
           <Image src={props.collectorsItem.fields.afbeelding.fields.file.url} alt={props.collectorsItem.fields.afbeelding.fields.title} />

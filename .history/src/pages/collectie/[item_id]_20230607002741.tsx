@@ -5,7 +5,7 @@ import { Header } from '@/components/features/layout/Header';
 import { Image } from '@/components/shared/Image';
 import { Check } from '@/icons/components';
 import ContentService from '@/utils/content-service';
-import { Box, Button, Flex, Heading, Icon, Modal, ModalContent, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Icon, Text } from '@chakra-ui/react';
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
@@ -47,8 +47,6 @@ const Page: NextPage<PageProps> = props => {
     })
   }
 
-  const modalDisclosure = useDisclosure()
-
   return (
     <>
       <NextSeo title={props.collectorsItem.fields.naamItem} description={props.collectorsItem.fields.verhaalItem} />
@@ -61,9 +59,7 @@ const Page: NextPage<PageProps> = props => {
           lazyload={true}
           h={550}
           w='50%'
-          objectFit='cover'
-          onClick={modalDisclosure.onOpen}
-          cursor='zoom-in' />
+          objectFit='cover' />
         <Flex flexDir='column' w='50%'>
           <Heading color='red' mb={2}>{props.collectorsItem.fields.naamItem}</Heading>
           <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{props.collectorsItem.fields.beschrijving}</span>
@@ -85,9 +81,9 @@ const Page: NextPage<PageProps> = props => {
                 <Image src='/Images/share/copy.png' alt='share button for copy to clipboard' />
               </Button>
               {copied && (
-                <Flex position='fixed' gap={2} alignItems='center' p={4} color='black' borderRadius='10px' bottom={10} left='50%' bg='#d9d9d9' transform='translateX(-50%)'>
+                <Flex position='fixed' gap={2} boxShadow='0 0 5px black' alignItems='center' p={4} color='white' borderRadius='10px' bottom={10} left='50%' bg='gray' transform='translateX(-50%)'>
                   <Text>Gekopieërd naar klembord!</Text>
-                  <Icon fontSize='1.5rem' borderRadius='full'>
+                  <Icon fontSize='1.5rem' bg='white' p={1} borderRadius='full' color='green'>
                     <Check />
                   </Icon>
                 </Flex>
@@ -97,15 +93,6 @@ const Page: NextPage<PageProps> = props => {
           </Box>
         </Flex>
       </Flex>
-      <Modal {...modalDisclosure} size='4xl'>
-        <ModalOverlay />
-        <ModalContent>
-          <Image src={props.collectorsItem.fields.afbeelding.fields.file.url} alt={props.collectorsItem.fields.afbeelding.fields.title} />
-        </ModalContent>
-      </Modal>
-      <Box mb={24}>
-        <Heading fontSize='1.5rem'>Vergelijkbare items</Heading>
-      </Box>
       <Footer />
     </>
   );
@@ -122,7 +109,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   return {
     props: {
       collectorsItem: selectedItem,
-    },
+    }, // will be passed to the page component as props
   };
 };
 
