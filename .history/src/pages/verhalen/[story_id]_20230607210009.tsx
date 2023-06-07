@@ -58,7 +58,7 @@ const Page: NextPage<PageProps> = props => {
   }
 
   const formatText = (text: string) => {
-    return text.replace(/(.+?)\s+__(.*?)__/g, '<div class="player-line"><p class="non-bold">$1</p><strong class="player-name">$2</strong></div>');
+    return text.replace(/__(.*?)__/g, "<strong class='players'>$1</strong>").replace(/\n/g, "<br>")
   }
 
   console.log(props.story.fields.verhaal?.content[4].data.target.fields)

@@ -11,9 +11,6 @@ export const globalStyle: CSSObject = {
     boxSizing: 'border-box',
   },
   ".player-line": {
-    display: 'flex',
-  },
-  ".non-bold": {
-    width: '5rem'
+    display: 'flex'
   }
 };

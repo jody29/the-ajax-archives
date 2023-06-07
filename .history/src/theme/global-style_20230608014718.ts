@@ -10,10 +10,13 @@ export const globalStyle: CSSObject = {
   '*': {
     boxSizing: 'border-box',
   },
-  ".player-line": {
+  '.players': {
+    marginLeft: '2rem',
+  },
+  '.lineup': {
     display: 'flex',
   },
-  ".non-bold": {
-    width: '5rem'
+  '.player': {
+    marginLeft: '30px'
   }
 };

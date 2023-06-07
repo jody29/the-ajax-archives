@@ -41,7 +41,7 @@ const options = {
     renderNode: {
         [BLOCKS.PARAGRAPH]: (node: Node, children: ReactNode) => <Text fontSize='1.1rem' mb={8}>{children}</Text>,
         [BLOCKS.HEADING_2]: (node: Node, children: ReactNode) => <Heading fontWeight='bold' mb={8} w='50%' fontSize='2.3rem'>{children}</Heading>,
-        [BLOCKS.QUOTE]: (node: Node, children: ReactNode) => <blockquote style={{ padding: '0 20px', width: '50%', borderLeft: '3px solid #dadada', marginBottom: '40px', fontWeight: 'bold', color: '#6c6c6c' }}>{children}</blockquote>,
+        [BLOCKS.QUOTE]: (node: Node, children: ReactNode) => <blockquote style={{ padding: '15px 20px', borderLeft: '3px solid #6c6c6c', marginBottom: '40px', fontWeight: 'bold', color: '#6c6c6c', fontSize: '20px' }}>{children}</blockquote>,
         [BLOCKS.EMBEDDED_ASSET]: (node: EmbeddeAssetProps) => <Image mb={8} w='full' src={node.data.target.fields.file.url} alt={node.data.target.fields.title} />
     }
 }
@@ -58,7 +58,7 @@ const Page: NextPage<PageProps> = props => {
   }
 
   const formatText = (text: string) => {
-    return text.replace(/(.+?)\s+__(.*?)__/g, '<div class="player-line"><p class="non-bold">$1</p><strong class="player-name">$2</strong></div>');
+    return text.replace(/__(.*?)__/g, "<strong>$1</strong>").replace(/\n/g, "<br>")
   }
 
   console.log(props.story.fields.verhaal?.content[4].data.target.fields)

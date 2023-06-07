@@ -14,6 +14,6 @@ export const globalStyle: CSSObject = {
     display: 'flex',
   },
   ".non-bold": {
-    width: '5rem'
+    width: '24rem'
   }
 };
