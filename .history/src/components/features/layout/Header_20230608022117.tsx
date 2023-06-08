@@ -71,16 +71,13 @@ export const Header = ({ textColor, fixed }: HeaderProps) => {
       <Container>
         <Flex alignItems="center">
           <Navigation />
-          <IconButton aria-label="search" ml="auto" variant="secondary" onClick={() => {
-            setSearchOpen(prevState => !prevState)
-            document.body.style.overflow = 'hidden'
-          }}>
+          <IconButton aria-label="search" ml="auto" variant="secondary" onClick={() => setSearchOpen(prevState => !prevState)}>
             <SearchIcon color={textColor} bg="transparant" />
           </IconButton>
         </Flex>
       </Container>
 
-      <SearchOverlay setSearchOpen={setSearchOpen} isOpen={searchOpen} />
+      {searchOpen && <SearchOverlay setSearchOpen={setSearchOpen} />}
       
     </Box>
   );

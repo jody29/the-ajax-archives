@@ -1,5 +1,5 @@
 import { Box, BoxProps, Container, Flex, IconButton } from '@chakra-ui/react';
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 
 import { NavLink } from '@/components/shared/Link';
 import SearchIcon from '@/icons/components/Search';
@@ -56,8 +56,6 @@ interface HeaderProps {
 }
 
 export const Header = ({ textColor, fixed }: HeaderProps) => {
-  const [searchOpen, setSearchOpen] = useState(false)
-
   return (
     <Box
       as="header"
@@ -71,17 +69,12 @@ export const Header = ({ textColor, fixed }: HeaderProps) => {
       <Container>
         <Flex alignItems="center">
           <Navigation />
-          <IconButton aria-label="search" ml="auto" variant="secondary" onClick={() => {
-            setSearchOpen(prevState => !prevState)
-            document.body.style.overflow = 'hidden'
-          }}>
+          <IconButton aria-label="search" ml="auto" variant="secondary">
             <SearchIcon color={textColor} bg="transparant" />
           </IconButton>
         </Flex>
       </Container>
-
-      <SearchOverlay setSearchOpen={setSearchOpen} isOpen={searchOpen} />
-      
+      <SearchOverlay />
     </Box>
   );
 };

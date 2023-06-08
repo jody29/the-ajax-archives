@@ -8,8 +8,11 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { GetServerSideProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
 import { IStories } from 'types/contentful';
+import ReactMarkdown from 'react-markdown'
 import { ReactNode } from 'react';
 import { Prose } from '@nikolovlazar/chakra-ui-prose'
+import { Asset } from 'contentful';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 
 interface PageProps {
   story: IStories;
