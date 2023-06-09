@@ -8,7 +8,7 @@ export interface SearchOverlayProps {
   setSearchOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const suggestions = ['Ajax - Ac Milan', 'Rot-Weiss Erfurt - Ajax', 'Uitshirt 1989', 'Tickets 1995', 'Wedstrijdsjaals']
+const suggestions = ['Ajax - Ac Milan', 'Rot-Weiss Erfurt - Ajax', 'Kampioen 2010-2011', 'Tickets 1995', 'Wedstrijdsjaals']
 
 export const SearchOverlay = (props: SearchOverlayProps) => {
   return (

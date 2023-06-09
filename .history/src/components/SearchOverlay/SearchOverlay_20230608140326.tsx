@@ -2,13 +2,14 @@ import CloseNormalIcon from "@/icons/components/CloseNormal";
 import SearchIcon from "@/icons/components/Search";
 import { Box, Button, Container, Flex, Icon, IconButton, Input, Stack, Text } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
+import { FaCross } from "react-icons/fa";
 
 export interface SearchOverlayProps {
   isOpen: boolean;
   setSearchOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const suggestions = ['Ajax - Ac Milan', 'Rot-Weiss Erfurt - Ajax', 'Uitshirt 1989', 'Tickets 1995', 'Wedstrijdsjaals']
+const suggestions = ['Ajax - Ac Milan', 'Ajax Champions League 1995', 'Kampioen 2010-2011', 'Tickets 1995', 'Sjaals']
 
 export const SearchOverlay = (props: SearchOverlayProps) => {
   return (
