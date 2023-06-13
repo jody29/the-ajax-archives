@@ -1,22 +1,23 @@
 import CloseNormalIcon from "@/icons/components/CloseNormal";
 import SearchIcon from "@/icons/components/Search";
-import { Box, Button, Container, Flex, Icon, IconButton, Image, Input, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Icon, IconButton, Input, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { IStories, IStoriesFields, ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from "types/contentful";
 import { SuggestionButton } from "../SuggestionButton";
-import { SearchCard } from "../SearchCard";
+import axios from "axios";
 
 export interface SearchOverlayProps {
   isOpen: boolean;
   setSearchOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface collectionProps {
+interface collectionProps {
   image: string;
   title: string;
   link: string;
 }
 
-export interface storyProps {
+interface storyProps {
   image: string;
   match: string;
   location: string;
@@ -29,8 +30,6 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
   const [inputValue, setInputValue] = useState('')
   const [collectionResults, setCollectionResults] = useState<collectionProps[] | []>([])
   const [storyResults, setStoryResults] = useState<storyProps[] | []>([])
-  const [showCollection, setShowCollection] = useState(true)
-  const [showStories, setShowStories] = useState(false)
 
   const fakeCollection = [
     {
@@ -108,16 +107,6 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
 
   const showSearchResults = inputValue.length > 0 && (collectionResults.length > 0 || storyResults.length > 0)
 
-  const handleShowCollection = () => {
-    setShowCollection(true)
-    setShowStories(false)
-  }
-
-  const handleShowStories = () => {
-    setShowCollection(false)
-    setShowStories(true)
-  }
-
   return (
     <Box position='fixed' width='100vw' height='100vh' bg='white' top={0} transform={props.isOpen ? 'translateY(0)' : 'translateY(-100%)'} transition='transform 0.3s ease-in-out' zIndex={9999}>
       <Box py={6} w='full' borderBottom='1px solid black'>
@@ -140,28 +129,14 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
         <Container>
           {showSearchResults ? (
             <Box>
-              <Flex mt={10} gap={6}>
-                <Button p={0} fontSize='1rem' variant='secondary' color='black' fontWeight={showCollection ? 'bold' : 'normal'} onClick={handleShowCollection}>
+              <Flex mt={10} gap={2}>
+                <Button fontSize='1rem' variant='secondary'>
                   <Text>Collectie ({collectionResults.length})</Text>
                 </Button>
-                <Button p={0} fontSize='1rem' variant='secondary' color='black' fontWeight={showStories ? 'bold' : 'normal'} onClick={handleShowStories}>
+                <Button>
                   <Text>Verhalen ({storyResults.length})</Text>
                 </Button>
               </Flex>
-              {showCollection && (
-                <Flex flexWrap='wrap' gap={6} mb={10} mt={10}>
-                  {collectionResults.map(item => (
-                    <SearchCard key={item.title} item={item} />
-                  ))}
-                </Flex>
-              )}
-              {showStories && (
-                <Flex flexWrap='wrap' gap={6} mb={10} mt={10}>
-                  {storyResults.map(story => (
-                    <SearchCard key={story.match} verhaal={story} isStory />
-                  ))}
-                </Flex>
-              )}
             </Box>
           ) : (
             <Box>

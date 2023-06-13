@@ -1,67 +1,30 @@
 import CloseNormalIcon from "@/icons/components/CloseNormal";
 import SearchIcon from "@/icons/components/Search";
-import { Box, Button, Container, Flex, Icon, IconButton, Image, Input, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Icon, IconButton, Input, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { IStories, IStoriesFields, ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from "types/contentful";
 import { SuggestionButton } from "../SuggestionButton";
-import { SearchCard } from "../SearchCard";
+import axios from "axios";
 
 export interface SearchOverlayProps {
   isOpen: boolean;
+  collectie: ITicketAjaxAcMilan1995[];
+  verhalen: IStories[];
   setSearchOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-export interface collectionProps {
-  image: string;
-  title: string;
-  link: string;
-}
-
-export interface storyProps {
-  image: string;
-  match: string;
-  location: string;
-  link: string;
 }
 
 const suggestions = ['Ajax - Ac Milan', 'Rot-Weiss Erfurt - Ajax', 'Uitshirt 1989', 'Tickets 1995', 'Wedstrijdsjaals']
 
 export const SearchOverlay = (props: SearchOverlayProps) => {
   const [inputValue, setInputValue] = useState('')
-  const [collectionResults, setCollectionResults] = useState<collectionProps[] | []>([])
-  const [storyResults, setStoryResults] = useState<storyProps[] | []>([])
-  const [showCollection, setShowCollection] = useState(true)
-  const [showStories, setShowStories] = useState(false)
+  const [collectionResults, setCollectionResults] = useState([])
+  const [storyResults, setStoryResults] = useState([])
 
   const fakeCollection = [
     {
       image: '//images.ctfassets.net/m8mhss8s8opk/15EpDnaY7wFdo3wWJOXdxb/6be8d7509c6300b79e99e304b51acf9d/IMG_0774.JPG',
       title: 'Ticket SL Benfica - AFC Ajax 2018',
       link: '/collectie/2gnIPEogtmGLb7ZpY23xpg'
-    },
-    {
-      image: '//images.ctfassets.net/m8mhss8s8opk/38WABLNMvnfALgMVEzmHUy/a27f8a228655a59555453ff612bbec48/IMG_0777.JPG',
-      title: 'Ticket Glasgow Rangers - AFC Ajax 2022',
-      link: '/collectie/1F0jTFBSejsyT0NlMmVeaQ'
-    },
-    {
-      image: '//images.ctfassets.net/m8mhss8s8opk/41KYK6HOIdD7vqmGlGh83h/6fc2a686e8c46b27d0bb032250566097/IMG_0776.JPG',
-      title: 'Ticket Liverpool FC - AFC Ajax 2022',
-      link: '/collectie/3XHfWDhtzgO36xxLjYFzfh'
-    },
-    {
-      image: '//images.ctfassets.net/m8mhss8s8opk/2xdHBnu6JnfET9LXJAKk5G/0b61db309964e97f6c91b4b070b20e38/IMG_0735.JPG',
-      title: 'Ticket Real Madrid - AFC Ajax 2019',
-      link: '/collectie/520yBJvqieHZLHvqJ9X0CA'
-    },
-    {
-      image: '//images.ctfassets.net/m8mhss8s8opk/3iJCm8oreJf6BXYm99Dmre/198e8d3cb8587f33242e63e1f227bbef/IMG_0775.JPG',
-      title: 'Ticket Standard Luik - AFC Ajax 2018',
-      link: '/collectie/58MTiEhIzd2ksBEE3GTYHn'
-    },
-    {
-      image: '//images.ctfassets.net/m8mhss8s8opk/1C6HZRxHlm8iSpkwvFOu5m/1d7567dcc6fd7c030f0e5114744b9807/IMG_0743.JPG',
-      title: 'Ticket Schalke 04 - AFC Ajax 2017',
-      link: '/collectie/4ZEjap5pt7QQQenEavDYl4'
     },
 
   ]
@@ -94,11 +57,7 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
 
   useEffect(() => {
       if (inputValue.length > 0) {
-        const resultCollection = fakeCollection.filter(item => item.title.toLowerCase().includes(inputValue.toLowerCase()))
-        const resultStories = fakeStories.filter(story => story.match.toLowerCase().includes(inputValue.toLowerCase()))
-
-        setCollectionResults(resultCollection)
-        setStoryResults(resultStories)
+        
         
       } else {
         setCollectionResults([])
@@ -107,16 +66,6 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
   }, [inputValue])
 
   const showSearchResults = inputValue.length > 0 && (collectionResults.length > 0 || storyResults.length > 0)
-
-  const handleShowCollection = () => {
-    setShowCollection(true)
-    setShowStories(false)
-  }
-
-  const handleShowStories = () => {
-    setShowCollection(false)
-    setShowStories(true)
-  }
 
   return (
     <Box position='fixed' width='100vw' height='100vh' bg='white' top={0} transform={props.isOpen ? 'translateY(0)' : 'translateY(-100%)'} transition='transform 0.3s ease-in-out' zIndex={9999}>
@@ -140,28 +89,7 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
         <Container>
           {showSearchResults ? (
             <Box>
-              <Flex mt={10} gap={6}>
-                <Button p={0} fontSize='1rem' variant='secondary' color='black' fontWeight={showCollection ? 'bold' : 'normal'} onClick={handleShowCollection}>
-                  <Text>Collectie ({collectionResults.length})</Text>
-                </Button>
-                <Button p={0} fontSize='1rem' variant='secondary' color='black' fontWeight={showStories ? 'bold' : 'normal'} onClick={handleShowStories}>
-                  <Text>Verhalen ({storyResults.length})</Text>
-                </Button>
-              </Flex>
-              {showCollection && (
-                <Flex flexWrap='wrap' gap={6} mb={10} mt={10}>
-                  {collectionResults.map(item => (
-                    <SearchCard key={item.title} item={item} />
-                  ))}
-                </Flex>
-              )}
-              {showStories && (
-                <Flex flexWrap='wrap' gap={6} mb={10} mt={10}>
-                  {storyResults.map(story => (
-                    <SearchCard key={story.match} verhaal={story} isStory />
-                  ))}
-                </Flex>
-              )}
+              <Text color='black'>Showing results</Text>
             </Box>
           ) : (
             <Box>

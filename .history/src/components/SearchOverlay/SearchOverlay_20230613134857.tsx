@@ -2,7 +2,10 @@ import CloseNormalIcon from "@/icons/components/CloseNormal";
 import SearchIcon from "@/icons/components/Search";
 import { Box, Button, Container, Flex, Icon, IconButton, Image, Input, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { IStories, IStoriesFields, ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from "types/contentful";
 import { SuggestionButton } from "../SuggestionButton";
+import axios from "axios";
+import { PreviewCard } from "../PreviewCard";
 import { SearchCard } from "../SearchCard";
 
 export interface SearchOverlayProps {
@@ -140,11 +143,11 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
         <Container>
           {showSearchResults ? (
             <Box>
-              <Flex mt={10} gap={6}>
-                <Button p={0} fontSize='1rem' variant='secondary' color='black' fontWeight={showCollection ? 'bold' : 'normal'} onClick={handleShowCollection}>
+              <Flex mt={10} gap={2}>
+                <Button fontSize='1rem' variant='secondary' color='black' fontWeight={showCollection ? 'bold' : 'normal'} onClick={handleShowCollection}>
                   <Text>Collectie ({collectionResults.length})</Text>
                 </Button>
-                <Button p={0} fontSize='1rem' variant='secondary' color='black' fontWeight={showStories ? 'bold' : 'normal'} onClick={handleShowStories}>
+                <Button fontSize='1rem' variant='secondary' color='black' fontWeight={showStories ? 'bold' : 'normal'} onClick={handleShowStories}>
                   <Text>Verhalen ({storyResults.length})</Text>
                 </Button>
               </Flex>
@@ -160,7 +163,7 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
                   {storyResults.map(story => (
                     <SearchCard key={story.match} verhaal={story} isStory />
                   ))}
-                </Flex>
+              </Flex>
               )}
             </Box>
           ) : (

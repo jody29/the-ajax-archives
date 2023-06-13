@@ -2,7 +2,10 @@ import CloseNormalIcon from "@/icons/components/CloseNormal";
 import SearchIcon from "@/icons/components/Search";
 import { Box, Button, Container, Flex, Icon, IconButton, Image, Input, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { IStories, IStoriesFields, ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from "types/contentful";
 import { SuggestionButton } from "../SuggestionButton";
+import axios from "axios";
+import { PreviewCard } from "../PreviewCard";
 import { SearchCard } from "../SearchCard";
 
 export interface SearchOverlayProps {

@@ -2,21 +2,23 @@ import CloseNormalIcon from "@/icons/components/CloseNormal";
 import SearchIcon from "@/icons/components/Search";
 import { Box, Button, Container, Flex, Icon, IconButton, Image, Input, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { IStories, IStoriesFields, ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from "types/contentful";
 import { SuggestionButton } from "../SuggestionButton";
-import { SearchCard } from "../SearchCard";
+import axios from "axios";
+import { PreviewCard } from "../PreviewCard";
 
 export interface SearchOverlayProps {
   isOpen: boolean;
   setSearchOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export interface collectionProps {
+interface collectionProps {
   image: string;
   title: string;
   link: string;
 }
 
-export interface storyProps {
+interface storyProps {
   image: string;
   match: string;
   location: string;
@@ -140,28 +142,22 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
         <Container>
           {showSearchResults ? (
             <Box>
-              <Flex mt={10} gap={6}>
-                <Button p={0} fontSize='1rem' variant='secondary' color='black' fontWeight={showCollection ? 'bold' : 'normal'} onClick={handleShowCollection}>
+              <Flex mt={10} gap={2}>
+                <Button fontSize='1rem' variant='secondary' color='black' fontWeight={showCollection ? 'bold' : 'normal'} onClick={handleShowCollection}>
                   <Text>Collectie ({collectionResults.length})</Text>
                 </Button>
-                <Button p={0} fontSize='1rem' variant='secondary' color='black' fontWeight={showStories ? 'bold' : 'normal'} onClick={handleShowStories}>
+                <Button fontSize='1rem' variant='secondary' color='black' fontWeight={showStories ? 'bold' : 'normal'} onClick={handleShowStories}>
                   <Text>Verhalen ({storyResults.length})</Text>
                 </Button>
               </Flex>
               {showCollection && (
                 <Flex flexWrap='wrap' gap={6} mb={10} mt={10}>
                   {collectionResults.map(item => (
-                    <SearchCard key={item.title} item={item} />
+                    <Image src={item.image} alt={item.title} h={50} w={50} />
                   ))}
                 </Flex>
               )}
-              {showStories && (
-                <Flex flexWrap='wrap' gap={6} mb={10} mt={10}>
-                  {storyResults.map(story => (
-                    <SearchCard key={story.match} verhaal={story} isStory />
-                  ))}
-                </Flex>
-              )}
+              
             </Box>
           ) : (
             <Box>
