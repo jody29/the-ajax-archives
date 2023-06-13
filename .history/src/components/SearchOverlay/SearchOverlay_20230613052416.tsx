@@ -1,5 +1,6 @@
 import CloseNormalIcon from "@/icons/components/CloseNormal";
 import SearchIcon from "@/icons/components/Search";
+import ContentService from "@/utils/content-service";
 import { Box, Button, Container, Flex, Icon, IconButton, Input, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IStories, IStoriesFields, ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from "types/contentful";
@@ -24,13 +25,15 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
     setInputValue(event.target.value)
   }
 
+  console.log(process.env.CONTENTFUL_ACCESS_TOKEN)
+
   useEffect(() => {
     const fetchData = async () => {
       if (inputValue.length > 0) {
         const collectie = await axios.get(`https://cdn.contentful.com/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID}/environments/master/entries`, {
           params: {
-            acces_token: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
-            content_type: 'ticketAjaxAcMilan1995'
+            access_token: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
+            content_type: 'collectie'
           }
         })
         const verhalen = await axios.get(`https://cdn.contentful.com/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID}/environments/master/entries`, {

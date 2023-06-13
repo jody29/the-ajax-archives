@@ -2,9 +2,8 @@ import CloseNormalIcon from "@/icons/components/CloseNormal";
 import SearchIcon from "@/icons/components/Search";
 import { Box, Button, Container, Flex, Icon, IconButton, Input, Stack, Text } from "@chakra-ui/react";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
-import { IStories, IStoriesFields, ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from "types/contentful";
+import { IStories, ITicketAjaxAcMilan1995 } from "types/contentful";
 import { SuggestionButton } from "../SuggestionButton";
-import axios from "axios";
 
 export interface SearchOverlayProps {
   isOpen: boolean;
@@ -25,30 +24,16 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (inputValue.length > 0) {
-        const collectie = await axios.get(`https://cdn.contentful.com/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID}/environments/master/entries`, {
-          params: {
-            acces_token: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
-            content_type: 'ticketAjaxAcMilan1995'
-          }
-        })
-        const verhalen = await axios.get(`https://cdn.contentful.com/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID}/environments/master/entries`, {
-          params: {
-            acces_token: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
-            content_type: 'stories'
-          }
-        })
+    if (inputValue.length > 0) {
+      const collectionResults = props.collectie.filter(item => item.fields.naamItem.toLowerCase().includes(inputValue.toLowerCase()))
+      const storyResults = props.verhalen.filter(story => story.fields.wedstrijd?.toLowerCase().includes(inputValue.toLowerCase()))
 
-        console.log("collectie: " + collectie)
-        console.log("verhalen: " + verhalen)
-      } else {
-        setCollectionResults([])
-        setStoryResults([])
-      }
+      setCollectionResults(collectionResults)
+      setStoryResults(storyResults)
+    } else {
+      setCollectionResults([]);
+      setStoryResults([])
     }
-
-    fetchData()
   }, [inputValue])
 
   const showSearchResults = inputValue.length > 0 && (collectionResults.length > 0 || storyResults.length > 0)
