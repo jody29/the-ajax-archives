@@ -18,6 +18,9 @@ declare global {
 
 config();
 
+console.log('Space_id: ' + process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID)
+console.log('acces: ' + process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN)
+
 export default class ContentService {
   static get instance() {
     return new ContentService();
