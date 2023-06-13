@@ -9,6 +9,8 @@ import { BaseLayout } from '@/components/templates';
 import { theme } from '@/theme/theme';
 import { isBrowser } from '@/utils/isBrowser';
 
+import { Provider } from '@/components/Provider'
+
 if (isBrowser) {
   import('@/utils/detectTouch');
   import('@/utils/detectKeyboardFocus');

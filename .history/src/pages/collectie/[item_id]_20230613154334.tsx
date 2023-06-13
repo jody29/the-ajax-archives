@@ -75,7 +75,7 @@ const Page: NextPage<PageProps> = props => {
             <Text mb={2}>deel item</Text>
             <Flex gap={2}>
               {shareItems.map(item => (
-                <Link key={item.url} href={item.url} passHref>
+                <Link href={item.url} passHref>
                   <Box as='a' target='_blank'>
                     <Image src={`/Images/share/${item.src}`} alt={`share button for ${item.src.replace('.png', '')}`} />
                   </Box>
