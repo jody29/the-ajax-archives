@@ -60,7 +60,6 @@ const Page: NextPage<PageProps> = props => {
 
   console.log(props.story.fields.verhaal?.content[4].data.target.fields)
 
-  // @ts-ignore
   const renderedStory = documentToReactComponents(props.story.fields.verhaal, options)
 
   return (
