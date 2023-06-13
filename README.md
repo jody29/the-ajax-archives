@@ -5,6 +5,7 @@ Archive of collectible items and stories that are coming from a CMS that is bein
 
 ## Initialize the project
 
+- clone the repo `git clone https://github.com/jody29/the-ajax-archives.git`
 - Install yarn `npm install yarn`
 - Copy `.env.example` to `.env` and fill in the required variables
 - Run `yarn` to install the dependencies
