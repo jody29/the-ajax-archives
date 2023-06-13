@@ -1,7 +1,7 @@
 # The Ajax Archives
 
 ## Description
-Archive of collectible items and stories that are coming from a CMS that is being run by an admin
+Archive of collectible items and stories that are coming from a CMS that is being run by an admin.
 
 ## Initialize the project
 
