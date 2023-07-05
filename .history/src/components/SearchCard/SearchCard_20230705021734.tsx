@@ -7,7 +7,7 @@ import { collectionProps, storyProps } from '../SearchOverlay';
 
 export interface SearchCardProps {
   verhaal?: storyProps;
-  item?: collectionProps;
+  item?: Entry<collectionProps>;
   isStory?: boolean;
 }
 
@@ -27,7 +27,7 @@ export const SearchCard = (props: SearchCardProps) => {
   return (
     <Link
       href={
-        props.isStory ? `/verhalen/${props.verhaal?.sys.id}` : `/collectie/${props.item?.sys.id}`
+        props.isStory ? `/verhalen/${props.verhaal?.link}` : `/collectie/${props.item?.fields.sys.id}`
       }
       passHref>
       <Box
@@ -40,8 +40,8 @@ export const SearchCard = (props: SearchCardProps) => {
         <Image
           src={
             props.isStory
-              ? props?.verhaal?.fields.thumbnail.fields.file.url
-              : props.item?.fields.afbeelding.fields.file.url
+              ? props?.verhaal?.image
+              : props.item?.fields.fields.afbeelding.fields.file.url
           }
           h="full"
           w="full"
@@ -63,11 +63,11 @@ export const SearchCard = (props: SearchCardProps) => {
             whiteSpace="nowrap"
             overflow="hidden"
             textOverflow="ellipsis">
-            {props.isStory ? props?.verhaal?.fields.wedstrijd : props.item?.fields.naamItem}
+            {props.isStory ? props?.verhaal?.match : props.item?.fields.naamItem}
           </Heading>
           {props.isStory && (
             <Text pt={3} pb={1} lineHeight={1} color="white">
-              {props?.verhaal?.fields.plaatsnaam}
+              {props?.verhaal?.location}
             </Text>
           )}
           <Box height={isHovered ? 8 : 0} transition="height 0.3s ease-in-out" position="relative">

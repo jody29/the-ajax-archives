@@ -26,27 +26,10 @@ export interface collectionProps {
 }
 
 export interface storyProps {
-  sys: {
-    id: string;
-  };
-  fields: {
-    basisOpstelling: string;
-    coach: string;
-    competitie: string;
-    datum: string;
-    locatie: {
-      lat: number;
-      lon: number;
-    };
-    plaatsnaam: string;
-    ronde: string;
-    score: string;
-    seizoen: string;
-    thumbnail: Asset;
-    verhaal: Document;
-    wedstrijd: string;
-    wisselSpelers: string
-  }
+  image: string;
+  match: string;
+  location: string;
+  link: string;
 }
 
 const suggestions = ['Ajax - Ac Milan', 'Rot-Weiss Erfurt - Ajax', 'Uitshirt 1989', 'Tickets 1995', 'Wedstrijdsjaals']
@@ -85,13 +68,11 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
               content_type: 'stories',
               query: inputValue.toLowerCase()
             })
-            const storyFetch = storyResponse.items.map((entry) => entry as storyProps)
-
-            setStoryResults(storyFetch)
 
  
           } catch (error) {
             console.error(error)
+            setNoResults(true)
           }
         } 
 
@@ -156,7 +137,7 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
               {showStories && (
                 <Flex flexWrap='wrap' gap={6} mb={10} mt={10}>
                   {storyResults.map(story => (
-                    <SearchCard key={story.fields.wedstrijd} verhaal={story} isStory />
+                    <SearchCard key={story.match} verhaal={story} isStory />
                   ))}
                 </Flex>
               )}
