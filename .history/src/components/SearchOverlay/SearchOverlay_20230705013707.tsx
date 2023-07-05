@@ -4,9 +4,8 @@ import { Box, Button, Container, Flex, Icon, IconButton, Image, Input, Stack, Te
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { SuggestionButton } from "../SuggestionButton";
 import { SearchCard } from "../SearchCard";
-import { Asset, createClient, Entry, EntryCollection } from "contentful";
+import { createClient } from "contentful";
 import { env } from '@/env/client.mjs'
-import { ITicketAjaxAcMilan1995 } from "types/contentful";
 
 export interface SearchOverlayProps {
   isOpen: boolean;
@@ -14,50 +13,81 @@ export interface SearchOverlayProps {
 }
 
 export interface collectionProps {
-  sys: {
-    id: string;
-  };
-  fields: {
-    afbeelding: Asset;
-    beschrijving: string;
-    naamItem: string;
-    verhaalItem: string;
-  }
+  image: string;
+  title: string;
+  link: string;
 }
 
 export interface storyProps {
-  sys: {
-    id: string;
-  };
-  fields: {
-    basisOpstelling: string;
-    coach: string;
-    competitie: string;
-    datum: string;
-    locatie: {
-      lat: number;
-      lon: number;
-    };
-    plaatsnaam: string;
-    ronde: string;
-    score: string;
-    seizoen: string;
-    thumbnail: Asset;
-    verhaal: Document;
-    wedstrijd: string;
-    wisselSpelers: string
-  }
+  image: string;
+  match: string;
+  location: string;
+  link: string;
 }
 
 const suggestions = ['Ajax - Ac Milan', 'Rot-Weiss Erfurt - Ajax', 'Uitshirt 1989', 'Tickets 1995', 'Wedstrijdsjaals']
 
 export const SearchOverlay = (props: SearchOverlayProps) => {
   const [inputValue, setInputValue] = useState('')
-  const [collectionResults, setCollectionResults] = useState<collectionProps[] | [] >([])
+  const [collectionResults, setCollectionResults] = useState<collectionProps[] | []>([])
   const [storyResults, setStoryResults] = useState<storyProps[] | []>([])
   const [showCollection, setShowCollection] = useState(true)
   const [showStories, setShowStories] = useState(false)
-  const [noResults, setNoResults] = useState(false)
+
+  const fakeCollection = [
+    {
+      image: '//images.ctfassets.net/m8mhss8s8opk/15EpDnaY7wFdo3wWJOXdxb/6be8d7509c6300b79e99e304b51acf9d/IMG_0774.JPG',
+      title: 'Ticket SL Benfica - AFC Ajax 2018',
+      link: '2gnIPEogtmGLb7ZpY23xpg'
+    },
+    {
+      image: '//images.ctfassets.net/m8mhss8s8opk/38WABLNMvnfALgMVEzmHUy/a27f8a228655a59555453ff612bbec48/IMG_0777.JPG',
+      title: 'Ticket Glasgow Rangers - AFC Ajax 2022',
+      link: '1F0jTFBSejsyT0NlMmVeaQ'
+    },
+    {
+      image: '//images.ctfassets.net/m8mhss8s8opk/41KYK6HOIdD7vqmGlGh83h/6fc2a686e8c46b27d0bb032250566097/IMG_0776.JPG',
+      title: 'Ticket Liverpool FC - AFC Ajax 2022',
+      link: '3XHfWDhtzgO36xxLjYFzfh'
+    },
+    {
+      image: '//images.ctfassets.net/m8mhss8s8opk/2xdHBnu6JnfET9LXJAKk5G/0b61db309964e97f6c91b4b070b20e38/IMG_0735.JPG',
+      title: 'Ticket Real Madrid - AFC Ajax 2019',
+      link: '520yBJvqieHZLHvqJ9X0CA'
+    },
+    {
+      image: '//images.ctfassets.net/m8mhss8s8opk/3iJCm8oreJf6BXYm99Dmre/198e8d3cb8587f33242e63e1f227bbef/IMG_0775.JPG',
+      title: 'Ticket Standard Luik - AFC Ajax 2018',
+      link: '58MTiEhIzd2ksBEE3GTYHn'
+    },
+    {
+      image: '//images.ctfassets.net/m8mhss8s8opk/1C6HZRxHlm8iSpkwvFOu5m/1d7567dcc6fd7c030f0e5114744b9807/IMG_0743.JPG',
+      title: 'Ticket Schalke 04 - AFC Ajax 2017',
+      link: '4ZEjap5pt7QQQenEavDYl4'
+    },
+
+  ]
+
+  const fakeStories = [
+    {
+      image: '//images.ctfassets.net/m8mhss8s8opk/5gOtAGuLDqeEm8wZKwkq1I/01a6b9360d4242e07174ed998a22c2c3/C79EB0CC-BBD5-4A0E-8A8D-868F8329A1E8_1_105_c.jpeg',
+      match: 'SL Benfica - AFC Ajax',
+      location: 'Lissabon',
+      link: '79hnGwwjST4fDCJjJdb8gL'
+    },
+    {
+      image: '//images.ctfassets.net/m8mhss8s8opk/40NYUUfVHUWtU0cyOWAORU/df494b63af69035e4800b77caf54f736/schalke_04_-_ajax.jpeg',
+      match: 'Schalke 04 - AFC Ajax',
+      location: 'Gelsenkirchen',
+      link: '5VGhf7GFP6KOgeOC2h1l0t'
+    },
+    {
+      image: '//images.ctfassets.net/m8mhss8s8opk/14UNdjQOp0bcRMMCWp5UTz/67c8b543a13b3b0631c193642b4fdb3b/real_ajax_2019.jpeg',
+      match: 'Real Madrid - AFC Ajax',
+      location: 'Madrid',
+      link: '73TYyQ8NzQRE371AHy6XiD'
+    }
+  ]
 
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -77,28 +107,15 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
               content_type: 'ticketAjaxAcMilan1995',
               query: inputValue.toLowerCase()
             })
-            const collectionFetch = collectionResponse.items.map((entry) => entry as collectionProps)
 
-            setCollectionResults(collectionFetch)
-
-            const storyResponse = await client.getEntries({
-              content_type: 'stories',
-              query: inputValue.toLowerCase()
-            })
-            const storyFetch = storyResponse.items.map((entry) => entry as storyProps)
-
-            setStoryResults(storyFetch)
-
+            console.log(collectionResponse)
  
           } catch (error) {
             console.error(error)
           }
         } 
-
-        fetchData()
         
       } else {
-        setNoResults(false)
         setCollectionResults([])
         setStoryResults([])
       }
@@ -149,14 +166,14 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
               {showCollection && (
                 <Flex flexWrap='wrap' gap={6} mb={10} mt={10}>
                   {collectionResults.map(item => (
-                    <SearchCard key={item.fields.naamItem} item={item} />
+                    <SearchCard key={item.title} item={item} />
                   ))}
                 </Flex>
               )}
               {showStories && (
                 <Flex flexWrap='wrap' gap={6} mb={10} mt={10}>
                   {storyResults.map(story => (
-                    <SearchCard key={story.fields.wedstrijd} verhaal={story} isStory />
+                    <SearchCard key={story.match} verhaal={story} isStory />
                   ))}
                 </Flex>
               )}

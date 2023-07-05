@@ -96,6 +96,7 @@
     "scroll-to-element": "^2.0.3",
     "sharp": "^0.29.2",
     "yup": "^0.32.11",
+    "zod": "^3.21.4",
     "zustand": "^3.7.2"
   },
   "devDependencies": {

@@ -26,34 +26,17 @@ export interface collectionProps {
 }
 
 export interface storyProps {
-  sys: {
-    id: string;
-  };
-  fields: {
-    basisOpstelling: string;
-    coach: string;
-    competitie: string;
-    datum: string;
-    locatie: {
-      lat: number;
-      lon: number;
-    };
-    plaatsnaam: string;
-    ronde: string;
-    score: string;
-    seizoen: string;
-    thumbnail: Asset;
-    verhaal: Document;
-    wedstrijd: string;
-    wisselSpelers: string
-  }
+  image: string;
+  match: string;
+  location: string;
+  link: string;
 }
 
 const suggestions = ['Ajax - Ac Milan', 'Rot-Weiss Erfurt - Ajax', 'Uitshirt 1989', 'Tickets 1995', 'Wedstrijdsjaals']
 
 export const SearchOverlay = (props: SearchOverlayProps) => {
   const [inputValue, setInputValue] = useState('')
-  const [collectionResults, setCollectionResults] = useState<collectionProps[] | [] >([])
+  const [collectionResults, setCollectionResults] = useState<Entry<collectionProps>[] | [] >([])
   const [storyResults, setStoryResults] = useState<storyProps[] | []>([])
   const [showCollection, setShowCollection] = useState(true)
   const [showStories, setShowStories] = useState(false)
@@ -77,7 +60,7 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
               content_type: 'ticketAjaxAcMilan1995',
               query: inputValue.toLowerCase()
             })
-            const collectionFetch = collectionResponse.items.map((entry) => entry as collectionProps)
+            const collectionFetch = collectionResponse.items.map((entry) => entry as Entry<collectionProps>)
 
             setCollectionResults(collectionFetch)
 
@@ -85,13 +68,11 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
               content_type: 'stories',
               query: inputValue.toLowerCase()
             })
-            const storyFetch = storyResponse.items.map((entry) => entry as storyProps)
-
-            setStoryResults(storyFetch)
 
  
           } catch (error) {
             console.error(error)
+            setNoResults(true)
           }
         } 
 
@@ -149,14 +130,14 @@ export const SearchOverlay = (props: SearchOverlayProps) => {
               {showCollection && (
                 <Flex flexWrap='wrap' gap={6} mb={10} mt={10}>
                   {collectionResults.map(item => (
-                    <SearchCard key={item.fields.naamItem} item={item} />
+                    <SearchCard key={item.fields.fields.naamItem} item={item} />
                   ))}
                 </Flex>
               )}
               {showStories && (
                 <Flex flexWrap='wrap' gap={6} mb={10} mt={10}>
                   {storyResults.map(story => (
-                    <SearchCard key={story.fields.wedstrijd} verhaal={story} isStory />
+                    <SearchCard key={story.match} verhaal={story} isStory />
                   ))}
                 </Flex>
               )}
