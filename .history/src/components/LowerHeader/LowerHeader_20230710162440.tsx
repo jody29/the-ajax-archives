@@ -2,7 +2,6 @@ import FilterIcon from '@/icons/components/Filter';
 import { Box, Button, Flex, MenuItemOption, Select, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Filter } from '../Filter';
 import { FieldSelect } from '../shared/Form';
 
 export interface LowerHeaderProps {
@@ -40,12 +39,11 @@ export const LowerHeader = (props: LowerHeaderProps) => {
         </Button>
       </Link>
       {props.isCollection ? (
-        <Box position='relative' ml='auto' >
-          <Button fontSize="1.2rem" p={0} color="black" variant="secondary">
-            <FilterIcon />
-            <Text ml={4}>Filter items</Text>
-          </Button>
-          <Filter />
+        <Box>
+        <Button fontSize="1.2rem" p={0} color="black" variant="secondary" ml="auto">
+          <FilterIcon />
+          <Text ml={4}>Filter items</Text>
+        </Button>
         </Box>
       ) : (
         <Flex ml='auto' alignItems='center' gap={2}>

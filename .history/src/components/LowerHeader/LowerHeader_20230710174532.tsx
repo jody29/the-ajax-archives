@@ -40,8 +40,8 @@ export const LowerHeader = (props: LowerHeaderProps) => {
         </Button>
       </Link>
       {props.isCollection ? (
-        <Box position='relative' ml='auto' >
-          <Button fontSize="1.2rem" p={0} color="black" variant="secondary">
+        <Box position='relative'>
+          <Button fontSize="1.2rem" p={0} color="black" variant="secondary" ml="auto">
             <FilterIcon />
             <Text ml={4}>Filter items</Text>
           </Button>
