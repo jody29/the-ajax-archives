@@ -87,7 +87,7 @@ export const Filter = (props: FilterProps) => {
     <form id="filterForm" noValidate>
       <Box bg='white' position='absolute' zIndex={1} p='2rem' w='23rem' right={0} top='-1rem' borderRadius='15px' boxShadow='0 0 10px rgba(0,0,0,.5)'>
         <Box position='relative'>
-          <IconButton aria-label="close filter" size='xs' bg='transparent' color='slatergray' icon={ <CloseNormalIcon /> } position='absolute' right={0} top={0} />
+          <IconButton aria-label="close filter" size='1' bg='transparent' color='slatergray' icon={ <CloseNormalIcon /> } position='absolute' right={0} top={0} />
           <Stack>
             <Heading fontSize='1.4rem' mb={1}>Type item</Heading>
             <Flex flexDir='column' gap={2}>

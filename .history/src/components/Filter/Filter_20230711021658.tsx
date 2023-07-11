@@ -1,7 +1,5 @@
-import CloseNormalIcon from "@/icons/components/CloseNormal";
-import { Box, Button, Flex, Heading, IconButton, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, Stack, Text } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { FaClosedCaptioning, FaCross } from "react-icons/fa";
 import { RedCheckbox } from "../RedCheckbox";
 
 export interface FilterProps {}
@@ -85,9 +83,8 @@ export const Filter = (props: FilterProps) => {
 
   return (
     <form id="filterForm" noValidate>
-      <Box bg='white' position='absolute' zIndex={1} p='2rem' w='23rem' right={0} top='-1rem' borderRadius='15px' boxShadow='0 0 10px rgba(0,0,0,.5)'>
+      <Box bg='white' position='absolute' zIndex={1} p='2rem' w='23rem' right={0} top='4rem' borderRadius='15px' boxShadow='0 0 10px rgba(0,0,0,.5)'>
         <Box position='relative'>
-          <IconButton aria-label="close filter" size='xs' bg='transparent' color='slatergray' icon={ <CloseNormalIcon /> } position='absolute' right={0} top={0} />
           <Stack>
             <Heading fontSize='1.4rem' mb={1}>Type item</Heading>
             <Flex flexDir='column' gap={2}>
