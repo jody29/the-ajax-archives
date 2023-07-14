@@ -135,7 +135,7 @@ export const Filter = (props: FilterProps) => {
           </Stack>
         </Flex>
         <Flex gap={4} mt='auto'>
-          <Button variant='secondary' color='red' border='1px solid red' borderRadius='base' p={6}>Reset filter</Button>
+          <Button variant='secondary' color='red' border='1px solid red' p={6}>Reset filter</Button>
           <Button type="submit" w='full' fontSize='1rem' borderRadius='base'>Toon 200 items</Button>
         </Flex>
       </Flex>

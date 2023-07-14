@@ -1,8 +1,7 @@
 import CloseNormalIcon from "@/icons/components/CloseNormal";
 import { Box, Button, Flex, Heading, IconButton, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, Stack, Text } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { FormEvent } from "react";
-import { FaClosedCaptioning, FaCross, FaLine } from "react-icons/fa";
+import { FaClosedCaptioning, FaCross } from "react-icons/fa";
 import { RedCheckbox } from "../RedCheckbox";
 
 export interface FilterProps {}
@@ -82,48 +81,39 @@ export const Filter = (props: FilterProps) => {
     }
   })
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    formik.handleSubmit(event)
-  }
-
-  const { setFieldValue, getFieldProps, errors, values } = formik
+  const { handleSubmit, setFieldValue, isValid, getFieldProps, errors, values } = formik
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Flex bg='white' position='fixed' zIndex={1} p='2rem' w='27rem' right={0} top={0} bottom={0} boxShadow='0 0 10px rgba(0,0,0,.5)' flexDir='column'>
-        <Flex flexDir='column' overflowY='scroll' overflowX='visible' pb={6} mb={6} borderBottom='1px solid gray'>
-          <Flex alignItems='center' pb={8} mb={6} borderBottom='1px solid gray'>
-            <Heading fontSize='1.8rem'>Filter</Heading>
-            <IconButton aria-label="close filter" size='xs' bg='transparent' color='slatergray' icon={ <CloseNormalIcon /> } ml='auto' />
-          </Flex>
-          <Stack pb={8} mt={0} borderBottom='1px solid gray'>
-            <Heading fontSize='1.2rem' fontWeight='bold' mb={4}>Filter op type item</Heading>
+    <form id="filterForm" noValidate>
+      <Box bg='white' position='absolute' zIndex={1} p='2rem' w='23rem' right={0} top={0} borderRadius='15px' boxShadow='0 0 10px rgba(0,0,0,.5)'>
+        <Box position='relative'>
+          <IconButton aria-label="close filter" size='xs' bg='transparent' color='slatergray' icon={ <CloseNormalIcon /> } position='absolute' right={0} top={0} />
+          <Stack>
+            <Heading fontSize='1.4rem' mb={1}>Type item</Heading>
             <Flex flexDir='column' gap={2}>
               {types.map(type => (
-                <Flex key={type.value} gap={4}>
-                  <RedCheckbox {...getFieldProps('type')} value={type.value} label={type.label} />
+                <Flex key={type.value} gap={2}>
+                  <RedCheckbox {...getFieldProps('type')} label={type.label} />
                   <Text>{type.label}</Text>
                 </Flex>
               ))}
             </Flex>
           </Stack>
-          <Stack mt={6} pb={8} borderBottom='1px solid gray'>
-            <Heading fontSize='1.2rem' mb={4}>Filter op competitie</Heading>
+          <Stack mt={4}>
+            <Heading fontSize='1.4rem' mb={1}>Competitie</Heading>
             <Flex flexDir='column' gap={2}>
               {competitions.map(competition => (
-                <Flex key={competition.value} gap={4}>
-                  <RedCheckbox {...getFieldProps('competition')} value={competition.value} label={competition.label} />
+                <Flex key={competition.value} gap={2}>
+                  <RedCheckbox {...getFieldProps('competition')} label={competition.label} />
                   <Text>{competition.label}</Text>
                 </Flex>
               ))}
             </Flex>
           </Stack>
-          <Stack mt={6} pb={2} >
-            <Heading fontSize='1.2rem' mb={4}>Filter op periode</Heading>
-            <Box p='0 1rem'>
-              <Text mb={2}>{values.period[0]} - {values.period[1]}</Text>
+          <Stack mt={4} >
+            <Heading fontSize='1.4rem' mb={1}>Periode</Heading>
+            <Box>
+              <Text>{values.period[0]} - {values.period[1]}</Text>
               <RangeSlider min={1960} max={currentYear} defaultValue={[1960, currentYear]} onChange={value => setFieldValue('period', value)}>
                 <RangeSliderTrack h='.5rem'>
                   <RangeSliderFilledTrack bg='red' />
@@ -133,12 +123,9 @@ export const Filter = (props: FilterProps) => {
               </RangeSlider>
             </Box>
           </Stack>
-        </Flex>
-        <Flex gap={4} mt='auto'>
-          <Button variant='secondary' color='red' border='1px solid red' borderRadius='base' p={6}>Reset filter</Button>
-          <Button type="submit" w='full' fontSize='1rem' borderRadius='base'>Toon 200 items</Button>
-        </Flex>
-      </Flex>
+          <Button type="submit" form="filterForm" w='full' fontSize='1rem' borderRadius='base' mt={6}>Toon 200 items</Button>
+        </Box>
+      </Box>
     </form>
   );
 }

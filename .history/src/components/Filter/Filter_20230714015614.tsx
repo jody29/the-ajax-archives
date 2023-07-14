@@ -1,7 +1,6 @@
 import CloseNormalIcon from "@/icons/components/CloseNormal";
 import { Box, Button, Flex, Heading, IconButton, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, Stack, Text } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import { FormEvent } from "react";
 import { FaClosedCaptioning, FaCross, FaLine } from "react-icons/fa";
 import { RedCheckbox } from "../RedCheckbox";
 
@@ -82,16 +81,10 @@ export const Filter = (props: FilterProps) => {
     }
   })
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    formik.handleSubmit(event)
-  }
-
-  const { setFieldValue, getFieldProps, errors, values } = formik
+  const { handleSubmit, setFieldValue, isValid, getFieldProps, errors, values } = formik
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={() => false}>
       <Flex bg='white' position='fixed' zIndex={1} p='2rem' w='27rem' right={0} top={0} bottom={0} boxShadow='0 0 10px rgba(0,0,0,.5)' flexDir='column'>
         <Flex flexDir='column' overflowY='scroll' overflowX='visible' pb={6} mb={6} borderBottom='1px solid gray'>
           <Flex alignItems='center' pb={8} mb={6} borderBottom='1px solid gray'>
@@ -103,7 +96,7 @@ export const Filter = (props: FilterProps) => {
             <Flex flexDir='column' gap={2}>
               {types.map(type => (
                 <Flex key={type.value} gap={4}>
-                  <RedCheckbox {...getFieldProps('type')} value={type.value} label={type.label} />
+                  <RedCheckbox {...getFieldProps('type')} label={type.label} />
                   <Text>{type.label}</Text>
                 </Flex>
               ))}
@@ -114,7 +107,7 @@ export const Filter = (props: FilterProps) => {
             <Flex flexDir='column' gap={2}>
               {competitions.map(competition => (
                 <Flex key={competition.value} gap={4}>
-                  <RedCheckbox {...getFieldProps('competition')} value={competition.value} label={competition.label} />
+                  <RedCheckbox {...getFieldProps('competition')} label={competition.label} />
                   <Text>{competition.label}</Text>
                 </Flex>
               ))}
@@ -135,8 +128,8 @@ export const Filter = (props: FilterProps) => {
           </Stack>
         </Flex>
         <Flex gap={4} mt='auto'>
-          <Button variant='secondary' color='red' border='1px solid red' borderRadius='base' p={6}>Reset filter</Button>
-          <Button type="submit" w='full' fontSize='1rem' borderRadius='base'>Toon 200 items</Button>
+          <Button variant='secondary' color='red' border='1px solid red' p={6}>Wis alles</Button>
+          <Button type="submit" onClick={handleSubmit} w='full' fontSize='1rem' borderRadius='base'>Toon 200 items</Button>
         </Flex>
       </Flex>
     </form>
