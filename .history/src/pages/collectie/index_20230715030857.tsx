@@ -7,8 +7,7 @@ import { Flex } from '@chakra-ui/react';
 import { TagLink } from 'contentful';
 import { GetStaticProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { type } from 'os';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from 'types/contentful';
 
 interface PageProps {
@@ -19,29 +18,21 @@ const Page: NextPage<PageProps> = props => {
   const [searchTags, setSearchTags] = useState<string[] | []>([])
   const [preFilteredData, setPreFilteredData] = useState<ITicketAjaxAcMilan1995[]>(props.items)
   const [amount, setAmount] = useState<number>(props.items.length)
-  const isInitialRender = useRef(true)
+
+  console.log(props.items.map(item => item.metadata.tags))
 
   useEffect(() => {
-    isInitialRender.current = false
-  }, [])
-
-  console.log(props.items)
-
-  useEffect(() => {
-    if (isInitialRender.current) {
-      return;
-    }
-
-    const preFilter = props.items.filter(data => {
+    const preFilter = preFilteredData.filter(data => {
       const entryTags = data.metadata.tags
-      
-      // return searchTags.some(tag => entryTags.includes(tag))
+
+      return searchTags.some(tag => entryTags.includes(tag))
     })
-    
 
     if (preFilter.length > 0) {
       setAmount(preFilter.length)
     }
+
+    setAmount(preFilter.length)
   }, [searchTags])
 
   return (

@@ -25,18 +25,27 @@ const Page: NextPage<PageProps> = props => {
     isInitialRender.current = false
   }, [])
 
-  console.log(props.items)
-
   useEffect(() => {
     if (isInitialRender.current) {
       return;
     }
 
     const preFilter = props.items.filter(data => {
-      const entryTags = data.metadata.tags
-      
+      const entryTags = () => {
+        const tags = data.metadata.tags
+        const result = tags.map(value => {
+          return value.sys.id
+        })
+
+        console.log('this is result:' + typeof result)
+      }
+
+      entryTags()
+
       // return searchTags.some(tag => entryTags.includes(tag))
     })
+
+    console.log('triggered');
     
 
     if (preFilter.length > 0) {

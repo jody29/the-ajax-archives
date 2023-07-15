@@ -7,7 +7,6 @@ import { FieldSelect } from '../shared/Form';
 
 export interface LowerHeaderProps {
   amount: number;
-  searchTags: string[];
   setSearchTags: (searchTags: string[] ) => void;
   isCollection?: boolean;
 }
@@ -48,7 +47,7 @@ export const LowerHeader = (props: LowerHeaderProps) => {
             <FilterIcon />
             <Text ml={4}>Filter items</Text>
           </Button>
-          <Filter setFilter={setFilter} isOpen={isOpen} amount={props.amount} searchTags={props.searchTags} setSearchTags={props.setSearchTags} />
+          <Filter setFilter={setFilter} isOpen={isOpen} amount={props.amount} setSearchTags={props.setSearchTags} />
         </Box>
       ) : (
         <Flex ml='auto' alignItems='center' gap={2}>

@@ -5,13 +5,7 @@ import { FormEvent } from "react";
 import { FaClosedCaptioning, FaCross, FaLine } from "react-icons/fa";
 import { RedCheckbox } from "../RedCheckbox";
 
-export interface FilterProps {
-  amount: number;
-  isOpen: boolean;
-  searchTags: string[];
-  setFilter: (isOpen: boolean) => void;
-  setSearchTags: (searchTags: string[]) => void;
-}
+export interface FilterProps {}
 
 export const Filter = (props: FilterProps) => {
   const date = new Date
@@ -96,30 +90,20 @@ export const Filter = (props: FilterProps) => {
 
   const { setFieldValue, getFieldProps, errors, values } = formik
 
-  const handleTagChange = (newTag: string) => {
-    if (props.searchTags.includes(newTag)) {
-      const updatedTags = props.searchTags.filter(tag => tag !== newTag)
-      props.setSearchTags(updatedTags)
-    } else {
-      const updatedTags = [...props.searchTags, newTag]
-      props.setSearchTags(updatedTags)
-    }
-  }
-
   return (
     <form onSubmit={handleSubmit}>
-      <Flex bg='white' position='fixed' zIndex={1} p='2rem' w='27rem' right={0} top={0} bottom={0} boxShadow='0 0 10px rgba(0,0,0,.5)' flexDir='column' transform={`translateX(${props.isOpen ? '0' : '100%' })`} transition='transform 0.3s ease-in-out'>
+      <Flex bg='white' position='fixed' zIndex={1} p='2rem' w='27rem' right={0} top={0} bottom={0} boxShadow='0 0 10px rgba(0,0,0,.5)' flexDir='column' transform='translateX(-100%)'>
         <Flex flexDir='column' overflowY='scroll' overflowX='visible' pb={6} mb={6} borderBottom='1px solid gray'>
           <Flex alignItems='center' pb={8} mb={6} borderBottom='1px solid gray'>
             <Heading fontSize='1.8rem'>Filter</Heading>
-            <IconButton aria-label="close filter" size='xs' bg='transparent' color='slatergray' icon={ <CloseNormalIcon /> } ml='auto' onClick={() => { props.setFilter(!props.isOpen) }} />
+            <IconButton aria-label="close filter" size='xs' bg='transparent' color='slatergray' icon={ <CloseNormalIcon /> } ml='auto' />
           </Flex>
           <Stack pb={8} mt={0} borderBottom='1px solid gray'>
             <Heading fontSize='1.2rem' fontWeight='bold' mb={4}>Filter op type item</Heading>
             <Flex flexDir='column' gap={2}>
               {types.map(type => (
                 <Flex key={type.value} gap={4}>
-                  <RedCheckbox {...getFieldProps('type')} value={type.value} label={type.label} onChange={() => { handleTagChange(type.value) }} />
+                  <RedCheckbox {...getFieldProps('type')} value={type.value} label={type.label} />
                   <Text>{type.label}</Text>
                 </Flex>
               ))}
@@ -130,7 +114,7 @@ export const Filter = (props: FilterProps) => {
             <Flex flexDir='column' gap={2}>
               {competitions.map(competition => (
                 <Flex key={competition.value} gap={4}>
-                  <RedCheckbox {...getFieldProps('competition')} value={competition.value} label={competition.label} onChange={() => { handleTagChange(competition.value) }} />
+                  <RedCheckbox {...getFieldProps('competition')} value={competition.value} label={competition.label} />
                   <Text>{competition.label}</Text>
                 </Flex>
               ))}
@@ -152,7 +136,7 @@ export const Filter = (props: FilterProps) => {
         </Flex>
         <Flex gap={4} mt='auto'>
           <Button variant='secondary' color='red' border='1px solid red' borderRadius='base' p={6}>Reset filter</Button>
-          <Button type="submit" w='full' fontSize='1rem' borderRadius='base'>Toon {props.amount} items</Button>
+          <Button type="submit" w='full' fontSize='1rem' borderRadius='base'>Toon 200 items</Button>
         </Flex>
       </Flex>
     </form>

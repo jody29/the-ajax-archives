@@ -25,8 +25,6 @@ const Page: NextPage<PageProps> = props => {
     isInitialRender.current = false
   }, [])
 
-  console.log(props.items)
-
   useEffect(() => {
     if (isInitialRender.current) {
       return;
@@ -35,7 +33,7 @@ const Page: NextPage<PageProps> = props => {
     const preFilter = props.items.filter(data => {
       const entryTags = data.metadata.tags
       
-      // return searchTags.some(tag => entryTags.includes(tag))
+      return searchTags.some(tag => entryTags.includes(tag))
     })
     
 

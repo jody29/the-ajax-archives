@@ -7,8 +7,7 @@ import { Flex } from '@chakra-ui/react';
 import { TagLink } from 'contentful';
 import { GetStaticProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { type } from 'os';
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from 'types/contentful';
 
 interface PageProps {
@@ -21,22 +20,19 @@ const Page: NextPage<PageProps> = props => {
   const [amount, setAmount] = useState<number>(props.items.length)
   const isInitialRender = useRef(true)
 
-  useEffect(() => {
-    isInitialRender.current = false
-  }, [])
-
-  console.log(props.items)
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isInitialRender.current) {
+      isInitialRender.current = false
       return;
     }
 
-    const preFilter = props.items.filter(data => {
+    const preFilter = preFilteredData.filter(data => {
       const entryTags = data.metadata.tags
-      
-      // return searchTags.some(tag => entryTags.includes(tag))
+
+      return searchTags.some(tag => entryTags.includes(tag))
     })
+
+    console.log('triggered');
     
 
     if (preFilter.length > 0) {

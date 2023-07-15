@@ -4,11 +4,9 @@ import { LowerHeader } from '@/components/LowerHeader';
 import { PreviewCard } from '@/components/PreviewCard';
 import ContentService from '@/utils/content-service';
 import { Flex } from '@chakra-ui/react';
-import { TagLink } from 'contentful';
 import { GetStaticProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { type } from 'os';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from 'types/contentful';
 
 interface PageProps {
@@ -17,38 +15,14 @@ interface PageProps {
 
 const Page: NextPage<PageProps> = props => {
   const [searchTags, setSearchTags] = useState<string[] | []>([])
-  const [preFilteredData, setPreFilteredData] = useState<ITicketAjaxAcMilan1995[]>(props.items)
-  const [amount, setAmount] = useState<number>(props.items.length)
-  const isInitialRender = useRef(true)
 
-  useEffect(() => {
-    isInitialRender.current = false
-  }, [])
-
-  console.log(props.items)
-
-  useEffect(() => {
-    if (isInitialRender.current) {
-      return;
-    }
-
-    const preFilter = props.items.filter(data => {
-      const entryTags = data.metadata.tags
-      
-      // return searchTags.some(tag => entryTags.includes(tag))
-    })
-    
-
-    if (preFilter.length > 0) {
-      setAmount(preFilter.length)
-    }
-  }, [searchTags])
+  let amount = props.items.length
 
   return (
     <>
       <NextSeo title="Page title" description="Page description" />
       <Header textColor="black" fixed={true} />
-      <LowerHeader amount={amount} setSearchTags={setSearchTags} searchTags={searchTags} isCollection />
+      <LowerHeader amount={amount} setSearchTags={setSearchTags} isCollection />
       <Flex flexWrap="wrap" gap={6} mb={10}>
         {props.items.map(item => (
           <PreviewCard key={item.fields.naamItem} item={item} />

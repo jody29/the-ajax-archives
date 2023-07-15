@@ -8,9 +8,7 @@ import { RedCheckbox } from "../RedCheckbox";
 export interface FilterProps {
   amount: number;
   isOpen: boolean;
-  searchTags: string[];
   setFilter: (isOpen: boolean) => void;
-  setSearchTags: (searchTags: string[]) => void;
 }
 
 export const Filter = (props: FilterProps) => {
@@ -96,16 +94,6 @@ export const Filter = (props: FilterProps) => {
 
   const { setFieldValue, getFieldProps, errors, values } = formik
 
-  const handleTagChange = (newTag: string) => {
-    if (props.searchTags.includes(newTag)) {
-      const updatedTags = props.searchTags.filter(tag => tag !== newTag)
-      props.setSearchTags(updatedTags)
-    } else {
-      const updatedTags = [...props.searchTags, newTag]
-      props.setSearchTags(updatedTags)
-    }
-  }
-
   return (
     <form onSubmit={handleSubmit}>
       <Flex bg='white' position='fixed' zIndex={1} p='2rem' w='27rem' right={0} top={0} bottom={0} boxShadow='0 0 10px rgba(0,0,0,.5)' flexDir='column' transform={`translateX(${props.isOpen ? '0' : '100%' })`} transition='transform 0.3s ease-in-out'>
@@ -119,7 +107,7 @@ export const Filter = (props: FilterProps) => {
             <Flex flexDir='column' gap={2}>
               {types.map(type => (
                 <Flex key={type.value} gap={4}>
-                  <RedCheckbox {...getFieldProps('type')} value={type.value} label={type.label} onChange={() => { handleTagChange(type.value) }} />
+                  <RedCheckbox {...getFieldProps('type')} value={type.value} label={type.label} />
                   <Text>{type.label}</Text>
                 </Flex>
               ))}
@@ -130,7 +118,7 @@ export const Filter = (props: FilterProps) => {
             <Flex flexDir='column' gap={2}>
               {competitions.map(competition => (
                 <Flex key={competition.value} gap={4}>
-                  <RedCheckbox {...getFieldProps('competition')} value={competition.value} label={competition.label} onChange={() => { handleTagChange(competition.value) }} />
+                  <RedCheckbox {...getFieldProps('competition')} value={competition.value} label={competition.label} />
                   <Text>{competition.label}</Text>
                 </Flex>
               ))}

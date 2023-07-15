@@ -35,7 +35,7 @@ const Page: NextPage<PageProps> = props => {
     const preFilter = props.items.filter(data => {
       const entryTags = data.metadata.tags
       
-      // return searchTags.some(tag => entryTags.includes(tag))
+      return searchTags.some(tag => entryTags.includes(tag))
     })
     
 

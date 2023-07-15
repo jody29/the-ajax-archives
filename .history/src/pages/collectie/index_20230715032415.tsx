@@ -7,7 +7,6 @@ import { Flex } from '@chakra-ui/react';
 import { TagLink } from 'contentful';
 import { GetStaticProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { type } from 'os';
 import { useEffect, useRef, useState } from 'react';
 import { ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from 'types/contentful';
 
@@ -25,18 +24,27 @@ const Page: NextPage<PageProps> = props => {
     isInitialRender.current = false
   }, [])
 
-  console.log(props.items)
-
   useEffect(() => {
     if (isInitialRender.current) {
       return;
     }
 
     const preFilter = props.items.filter(data => {
-      const entryTags = data.metadata.tags
-      
+      const entryTags = () => {
+        const tags = data.metadata.tags
+        const result = tags.map(value => {
+          return value.sys.id
+        })
+
+        console.log(result)
+      }
+
+      entryTags()
+
       // return searchTags.some(tag => entryTags.includes(tag))
     })
+
+    console.log('triggered');
     
 
     if (preFilter.length > 0) {

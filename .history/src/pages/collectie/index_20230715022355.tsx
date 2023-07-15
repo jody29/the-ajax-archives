@@ -1,11 +1,12 @@
 import { Footer } from '@/components/features/layout/Footer';
 import { Header } from '@/components/features/layout/Header';
 import { LowerHeader } from '@/components/LowerHeader';
-import { StoryCard } from '@/components/StoryCard';
+import { PreviewCard } from '@/components/PreviewCard';
 import ContentService from '@/utils/content-service';
 import { Flex } from '@chakra-ui/react';
 import { GetStaticProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+import { useState } from 'react';
 import { ITicketAjaxAcMilan1995, ITicketAjaxAcMilan1995Fields } from 'types/contentful';
 
 interface PageProps {
@@ -13,14 +14,18 @@ interface PageProps {
 }
 
 const Page: NextPage<PageProps> = props => {
+  const [searchQuery, setSearchQuery] = useState<string[] | []>([])
+
+  const amount = props.items.length
+
   return (
     <>
       <NextSeo title="Page title" description="Page description" />
       <Header textColor="black" fixed={true} />
-      <LowerHeader isCollection />
+      <LowerHeader amount={amount} isCollection />
       <Flex flexWrap="wrap" gap={6} mb={10}>
         {props.items.map(item => (
-          <StoryCard key={item.fields.naamItem} item={item} />
+          <PreviewCard key={item.fields.naamItem} item={item} />
         ))}
       </Flex>
       <Footer />
