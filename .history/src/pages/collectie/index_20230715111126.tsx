@@ -2,10 +2,8 @@ import { Footer } from '@/components/features/layout/Footer';
 import { Header } from '@/components/features/layout/Header';
 import { LowerHeader } from '@/components/LowerHeader';
 import { PreviewCard } from '@/components/PreviewCard';
-import { env } from '@/env/client.mjs';
 import ContentService from '@/utils/content-service';
 import { Flex } from '@chakra-ui/react';
-import axios from 'axios';
 import { TagLink } from 'contentful';
 import { GetStaticProps, NextPage } from 'next';
 import { NextSeo } from 'next-seo';
@@ -29,24 +27,16 @@ const Page: NextPage<PageProps> = props => {
       return;
     }
 
-    const query = searchTags.join(',')
+    const preFilter = props.items.filter(data => {
+      const entryTags = data.metadata.tags
+      
+      // return searchTags.some(tag => entryTags.includes(tag))
+    })
+    
 
-    axios
-      .get(`https://cdn.contentful.com/spaces/${env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID}/entries`, {
-        headers: {
-          'Authorization': `Bearer ${env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        params: {
-          'query': query,
-          'content_type': 'ticketAjaxAcMilan1995'
-        }
-      })
-      .then(res => {
-        const fetchedEntries = res.data.items
-        console.log(fetchedEntries)
-        setAmount(fetchedEntries.length)
-      })
+    if (preFilter.length > 0) {
+      setAmount(preFilter.length)
+    }
   }, [searchTags])
 
   return (

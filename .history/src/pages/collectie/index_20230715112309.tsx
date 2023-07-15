@@ -43,9 +43,8 @@ const Page: NextPage<PageProps> = props => {
         }
       })
       .then(res => {
-        const fetchedEntries = res.data.items
+        const fetchedEntries = res.data
         console.log(fetchedEntries)
-        setAmount(fetchedEntries.length)
       })
   }, [searchTags])
 
