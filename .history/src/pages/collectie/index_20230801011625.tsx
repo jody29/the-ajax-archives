@@ -40,12 +40,7 @@ const Page: NextPage<PageProps> = props => {
       })
       .then(res => {
         const fetchedEntries = res.data.items
-        if (searchTags.length > 0) {
-          setAmount(fetchedEntries.length)
-        } else {
-          setAmount(props.items.length)
-        }
-        
+        setAmount(fetchedEntries.length)
       })
   }, [searchTags])
 

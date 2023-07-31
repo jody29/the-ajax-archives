@@ -9,8 +9,8 @@ export interface FilterProps {
   amount: number;
   isOpen: boolean;
   searchTags: string[];
-  setFilter?: (isOpen: boolean) => void;
-  setSearchTags?: (searchTags: string[]) => void;
+  setFilter: (isOpen: boolean) => void;
+  setSearchTags: (searchTags: string[]) => void;
 }
 
 export const Filter = (props: FilterProps) => {
@@ -85,7 +85,7 @@ export const Filter = (props: FilterProps) => {
     initialValues,
     onSubmit: async values => {
       console.log(values)
-      if (props.setFilter) props.setFilter(!props.isOpen)
+      props.setFilter(!props.isOpen)
     }
   })
 
@@ -100,10 +100,10 @@ export const Filter = (props: FilterProps) => {
   const handleTagChange = (newTag: string) => {
     if (props.searchTags.includes(newTag)) {
       const updatedTags = props.searchTags.filter(tag => tag !== newTag)
-      if (props.setSearchTags) props.setSearchTags(updatedTags)
+      props.setSearchTags(updatedTags)
     } else {
       const updatedTags = [...props.searchTags, newTag]
-      if (props.setSearchTags) props.setSearchTags(updatedTags)
+      props.setSearchTags(updatedTags)
     }
   }
 
@@ -113,7 +113,7 @@ export const Filter = (props: FilterProps) => {
         <Flex flexDir='column' overflowY='scroll' overflowX='visible' pb={6} mb={6} borderBottom='1px solid gray'>
           <Flex alignItems='center' pb={8} mb={6} borderBottom='1px solid gray'>
             <Heading fontSize='1.8rem'>Filter</Heading>
-            <IconButton aria-label="close filter" size='xs' bg='transparent' color='slatergray' icon={ <CloseNormalIcon /> } ml='auto' onClick={() => { if (props.setFilter) props.setFilter(!props.isOpen) }} />
+            <IconButton aria-label="close filter" size='xs' bg='transparent' color='slatergray' icon={ <CloseNormalIcon /> } ml='auto' onClick={() => { props.setFilter(!props.isOpen) }} />
           </Flex>
           <Stack pb={8} mt={0} borderBottom='1px solid gray'>
             <Heading fontSize='1.2rem' fontWeight='bold' mb={4}>Filter op type item</Heading>

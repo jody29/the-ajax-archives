@@ -23,29 +23,30 @@ const Page: NextPage<PageProps> = props => {
   const [amount, setAmount] = useState<number>(props.items.length)
   const isInitialRender = useRef(true)
 
+  console.log(props.items)
+
   useEffect(() => {
     if (isInitialRender.current) {
       isInitialRender.current = false
       return;
     }
 
-    const query = searchTags.join(',')
+    const query = `fields.tags[all]=${searchTags.join(',')}`
 
     axios
-      .get(`https://cdn.contentful.com/spaces/${env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID}/entries?content_type=ticketAjaxAcMilan1995&metadata.tags.sys.id[all]=${query}`, {
+      .get(`https://cdn.contentful.com/spaces/${env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID}/entries`, {
         headers: {
           'Authorization': `Bearer ${env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN}`,
           'Content-Type': 'application/json'
+        },
+        params: {
+          'query': query,
+          'content_type': 'ticketAjaxAcMilan1995'
         }
       })
       .then(res => {
         const fetchedEntries = res.data.items
-        if (searchTags.length > 0) {
-          setAmount(fetchedEntries.length)
-        } else {
-          setAmount(props.items.length)
-        }
-        
+        setAmount(fetchedEntries.length)
       })
   }, [searchTags])
 
@@ -53,9 +54,9 @@ const Page: NextPage<PageProps> = props => {
     <>
       <NextSeo title="Page title" description="Page description" />
       <Header textColor="black" fixed={true} />
-      <LowerHeader amount={amount} setSearchTags={setSearchTags} setPreFilteredData={setPreFilteredData} searchTags={searchTags} isCollection />
+      <LowerHeader amount={amount} setSearchTags={setSearchTags} searchTags={searchTags} isCollection />
       <Flex flexWrap="wrap" gap={6} mb={10}>
-        {preFilteredData.map(item => (
+        {props.items.map(item => (
           <PreviewCard key={item.fields.naamItem} item={item} />
         ))}
       </Flex>

@@ -38,7 +38,7 @@ export interface IStoriesFields {
   wedstrijd?: string | undefined;
 
   /** verhaal */
-  verhaal?: Document | undefined;
+  verhaal: Document;
 
   /** thumbnail */
   thumbnail?: Asset | undefined;
@@ -75,6 +75,9 @@ export interface IStoriesFields {
 
   /** programma boekje */
   programmaBoekje?: Entry<{ [fieldId: string]: unknown }> | undefined;
+
+  /** seizoen */
+  seizoen?: string | undefined;
 }
 
 /** verhalen van ajax supporters */
