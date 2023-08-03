@@ -30,7 +30,7 @@ const Page: NextPage<PageProps> = props => {
     const query = searchTags.join(',')
 
     axios
-      .get(`https://cdn.contentful.com/spaces/${env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID}/entries?content_type=ticketAjaxAcMilan1995&metadata.tags.sys.id[in]=${query}`, {
+      .get(`https://cdn.contentful.com/spaces/${env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID}/entries?content_type=ticketAjaxAcMilan1995&metadata.tags.sys.id[all]=${query}`, {
         headers: {
           'Authorization': `Bearer ${env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN}`,
           'Content-Type': 'application/json'

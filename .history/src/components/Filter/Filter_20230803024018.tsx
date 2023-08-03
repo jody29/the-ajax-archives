@@ -107,23 +107,6 @@ export const Filter = (props: FilterProps) => {
     }
   }
 
-  const handleValueChange = (newTag: string, name: string) => {
-    const tagIndex = name === 'type' ? values.type.indexOf(newTag as never) : values.competition.indexOf(newTag as never)
-
-    if (tagIndex !== -1) {
-      const updatedTags = name === 'type' ? [...values.type] : [...values.competition]
-      
-      updatedTags.splice(tagIndex, 1)
-      setFieldValue(name, updatedTags)
-    } else {
-      if (name === 'type') {
-        setFieldValue(name, [...values.type, newTag])
-      } else if (name === 'competition') {
-        setFieldValue(name, [...values.type, newTag])
-      }
-    }
-  }
-
   return (
     <form onSubmit={handleSubmit}>
       <Flex bg='white' position='fixed' zIndex={1} p='2rem' w='27rem' right={0} top={0} bottom={0} boxShadow='0 0 10px rgba(0,0,0,.5)' flexDir='column' transform={`translateX(${props.isOpen ? '0' : '100%' })`} transition='transform 0.3s ease-in-out'>
@@ -143,7 +126,13 @@ export const Filter = (props: FilterProps) => {
                     label={type.label}
                     onChange={() => {
                       handleTagChange(type.value)
-                      handleValueChange(type.value, 'type')
+
+                      const tagExists = values?.type.includes(type.value)
+                      
+                      if (!tagExists) {
+                        const updatedTags = [...values.type, type.value]
+                        setFieldValue('type', updatedTags)
+                      }
                     }}
                   />
                   <Text>{type.label}</Text>
@@ -156,15 +145,7 @@ export const Filter = (props: FilterProps) => {
             <Flex flexDir='column' gap={2}>
               {competitions.map(competition => (
                 <Flex key={competition.value} gap={4}>
-                  <RedCheckbox 
-                    {...getFieldProps('competition')} 
-                    value={competition.value} 
-                    label={competition.label} 
-                    onChange={() => { 
-                      handleTagChange(competition.value) 
-                      handleValueChange(competition.value, 'competition')
-                    }} 
-                  />
+                  <RedCheckbox {...getFieldProps('competition')} value={competition.value} label={competition.label} onChange={() => { handleTagChange(competition.value) }} />
                   <Text>{competition.label}</Text>
                 </Flex>
               ))}

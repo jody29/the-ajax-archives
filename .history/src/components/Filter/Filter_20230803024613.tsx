@@ -108,19 +108,14 @@ export const Filter = (props: FilterProps) => {
   }
 
   const handleValueChange = (newTag: string, name: string) => {
-    const tagIndex = name === 'type' ? values.type.indexOf(newTag as never) : values.competition.indexOf(newTag as never)
+    const tagIndex = values.type.indexOf(newTag as never)
 
     if (tagIndex !== -1) {
-      const updatedTags = name === 'type' ? [...values.type] : [...values.competition]
-      
+      const updatedTags = [...values.type]
       updatedTags.splice(tagIndex, 1)
       setFieldValue(name, updatedTags)
     } else {
-      if (name === 'type') {
-        setFieldValue(name, [...values.type, newTag])
-      } else if (name === 'competition') {
-        setFieldValue(name, [...values.type, newTag])
-      }
+      setFieldValue(name, [...values.type, newTag])
     }
   }
 

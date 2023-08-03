@@ -97,6 +97,11 @@ export const Filter = (props: FilterProps) => {
 
   const { setFieldValue, getFieldProps, errors, values } = formik
 
+  const searchTagsField = useField('type')
+  const competitionFIeld = useField('competition')
+
+  console.log(searchTagsField)
+
   const handleTagChange = (newTag: string) => {
     if (props.searchTags.includes(newTag)) {
       const updatedTags = props.searchTags.filter(tag => tag !== newTag)
@@ -104,23 +109,6 @@ export const Filter = (props: FilterProps) => {
     } else {
       const updatedTags = [...props.searchTags, newTag]
       if (props.setSearchTags) props.setSearchTags(updatedTags)
-    }
-  }
-
-  const handleValueChange = (newTag: string, name: string) => {
-    const tagIndex = name === 'type' ? values.type.indexOf(newTag as never) : values.competition.indexOf(newTag as never)
-
-    if (tagIndex !== -1) {
-      const updatedTags = name === 'type' ? [...values.type] : [...values.competition]
-      
-      updatedTags.splice(tagIndex, 1)
-      setFieldValue(name, updatedTags)
-    } else {
-      if (name === 'type') {
-        setFieldValue(name, [...values.type, newTag])
-      } else if (name === 'competition') {
-        setFieldValue(name, [...values.type, newTag])
-      }
     }
   }
 
@@ -138,13 +126,12 @@ export const Filter = (props: FilterProps) => {
               {types.map(type => (
                 <Flex key={type.value} gap={4}>
                   <RedCheckbox 
-                    {...getFieldProps('type')}
+                    {...searchTagsField[0]} 
                     value={type.value} 
                     label={type.label}
                     onChange={() => {
                       handleTagChange(type.value)
-                      handleValueChange(type.value, 'type')
-                    }}
+                    }} 
                   />
                   <Text>{type.label}</Text>
                 </Flex>
@@ -156,15 +143,7 @@ export const Filter = (props: FilterProps) => {
             <Flex flexDir='column' gap={2}>
               {competitions.map(competition => (
                 <Flex key={competition.value} gap={4}>
-                  <RedCheckbox 
-                    {...getFieldProps('competition')} 
-                    value={competition.value} 
-                    label={competition.label} 
-                    onChange={() => { 
-                      handleTagChange(competition.value) 
-                      handleValueChange(competition.value, 'competition')
-                    }} 
-                  />
+                  <RedCheckbox {...getFieldProps('competition')} value={competition.value} label={competition.label} onChange={() => { handleTagChange(competition.value) }} />
                   <Text>{competition.label}</Text>
                 </Flex>
               ))}
